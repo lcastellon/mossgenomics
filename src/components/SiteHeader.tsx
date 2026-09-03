@@ -95,7 +95,7 @@ export function SiteHeader() {
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            aria-label="Abrir menú"
+            aria-label={open ? (language === "es" ? "Cerrar menú" : "Close menu") : language === "es" ? "Abrir menú" : "Open menu"}
             className="flex size-10 items-center justify-center rounded-full border border-border text-foreground xl:hidden"
           >
           <span className="flex flex-col gap-1">
