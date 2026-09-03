@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, PageHero, PendingBadge, Section } from "@/components/ui/primitives";
+import { submitContact } from "@/lib/contact.functions";
 import { lab } from "@/data/lab";
 
 export const Route = createFileRoute("/contact")({
