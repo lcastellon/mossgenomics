@@ -49,7 +49,6 @@ function ContactPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("[contact] onSubmit start");
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -58,7 +57,6 @@ function ContactPage() {
     setErrorMessage("");
 
     try {
-      console.log("[contact] calling submit");
       const result = await submit({
         data: {
           name: String(formData.get("nombre") ?? ""),
@@ -68,7 +66,6 @@ function ContactPage() {
           message: String(formData.get("mensaje") ?? ""),
         },
       });
-      console.log("[contact] result", result);
 
       if (result.ok) {
         setStatus("success");
@@ -78,7 +75,6 @@ function ContactPage() {
         setErrorMessage(result.error || "No se pudo enviar el mensaje.");
       }
     } catch (err) {
-      console.error("[contact] submit error", err);
       setStatus("error");
       setErrorMessage("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
     }
