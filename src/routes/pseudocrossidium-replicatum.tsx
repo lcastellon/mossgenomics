@@ -1,0 +1,157 @@
+import { createFileRoute } from "@tanstack/react-router";
+import mossDetail from "@/assets/moss-detail.jpg";
+import petri from "@/assets/culture-petri.jpg";
+import protonema from "@/assets/protonema.jpg";
+import { Reveal } from "@/components/Reveal";
+import {
+  ActionLink,
+  Eyebrow,
+  PendingBadge,
+  Section,
+  Sp,
+  Tag,
+} from "@/components/ui/primitives";
+import { species, speciesSections } from "@/data/pseudocrossidium";
+
+export const Route = createFileRoute("/pseudocrossidium-replicatum")({
+  component: SpeciesPage,
+  head: () => ({
+    meta: [
+      { title: "Pseudocrossidium replicatum | Modelo de estudio del Laboratorio 11 CIBA-IPN" },
+      {
+        name: "description",
+        content:
+          "Pseudocrossidium replicatum, musgo mexicano utilizado como modelo de estudio por el Laboratorio 11 de Genómica Funcional de Plantas del CIBA-IPN para investigar adaptación vegetal, regulación génica y respuestas a estrés.",
+      },
+      { property: "og:title", content: "Pseudocrossidium replicatum — Modelo de estudio" },
+      {
+        property: "og:description",
+        content:
+          "Un musgo mexicano para estudiar los mecanismos moleculares de adaptación vegetal. Recurso académico del Laboratorio 11, CIBA-IPN.",
+      },
+      { property: "og:url", content: "/pseudocrossidium-replicatum" },
+      { property: "og:type", content: "article" },
+    ],
+    links: [{ rel: "canonical", href: "/pseudocrossidium-replicatum" }],
+  }),
+});
+
+function SpeciesPage() {
+  return (
+    <>
+      <header className="relative isolate flex min-h-[78svh] items-end overflow-hidden bg-primary">
+        <img
+          src={mossDetail}
+          alt="Detalle macro de gametófitos de musgo"
+          width={1408}
+          height={1600}
+          className="absolute inset-0 size-full object-cover"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-primary via-primary/75 to-primary/30"
+          aria-hidden
+        />
+        <div className="relative mx-auto w-full max-w-6xl px-6 pt-36 pb-16 text-primary-foreground md:px-10 md:pb-24">
+          <Reveal>
+            <Eyebrow className="text-primary-foreground/60">{species.eyebrow}</Eyebrow>
+            <h1 className="mt-5 text-4xl leading-[1.03] md:text-7xl">
+              <Sp>Pseudocrossidium replicatum</Sp>
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-primary-foreground/80 md:text-xl">
+              {species.subtitle}
+            </p>
+          </Reveal>
+        </div>
+      </header>
+
+      <Section tone="paper">
+        <div className="grid gap-12 md:grid-cols-2">
+          <Reveal>
+            <h2 className="text-2xl">¿Qué es?</h2>
+            <p className="mt-4 leading-relaxed text-foreground/80">{species.whatIsIt}</p>
+          </Reveal>
+          <Reveal delay={100}>
+            <h2 className="text-2xl">¿Por qué estudiar un musgo?</h2>
+            <p className="mt-4 leading-relaxed text-foreground/80">{species.whyMoss}</p>
+          </Reveal>
+        </div>
+        <Reveal className="mt-14 rule-top pt-10">
+          <Eyebrow>¿Qué estudiamos?</Eyebrow>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            {species.topics.map((t) => (
+              <Tag key={t}>{t}</Tag>
+            ))}
+          </div>
+        </Reveal>
+      </Section>
+
+      <Section className="border-t border-border">
+        <Reveal className="flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <Eyebrow>Recurso académico</Eyebrow>
+            <h2 className="mt-4 text-3xl md:text-4xl">Ficha de la especie</h2>
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              Estructura preparada para incorporar información científica verificada. Los
+              apartados marcados esperan contenido proporcionado por el laboratorio.
+            </p>
+          </div>
+          <PendingBadge label="Contenido por confirmar" />
+        </Reveal>
+
+        <div className="mt-12 grid gap-px bg-border md:grid-cols-2">
+          {speciesSections.map((s, i) => (
+            <Reveal key={s.id} delay={(i % 2) * 80} className="bg-background">
+              <article id={s.id} className="flex h-full flex-col gap-3 p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl">{s.title}</h3>
+                  {s.pending ? <PendingBadge /> : null}
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="paper" className="border-t border-border">
+        <Reveal>
+          <Eyebrow>Fotografías</Eyebrow>
+          <h2 className="mt-4 text-3xl md:text-4xl">Galería de la especie</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+            Imágenes de referencia. Se sustituirán por fotografías propias de la especie y de su
+            cultivo en el laboratorio.
+          </p>
+        </Reveal>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {[
+            { src: petri, caption: "Cultivo in vitro · [placeholder]", alt: "Cultivo de musgo en caja de Petri" },
+            { src: protonema, caption: "Protonema · [placeholder]", alt: "Micrografía de protonema" },
+            { src: mossDetail, caption: "Gametófitos · [placeholder]", alt: "Gametófitos de musgo" },
+          ].map((img, i) => (
+            <Reveal key={img.caption} delay={i * 90}>
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="lazy"
+                className="h-64 w-full rounded-sm object-cover md:h-80"
+              />
+              <p className="mt-2 font-mono text-[11px] text-muted-foreground">{img.caption}</p>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="forest">
+        <Reveal className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+          <p className="max-w-2xl text-2xl leading-snug text-primary-foreground md:text-3xl">
+            ¿Tienes información, fotografías o datos sobre esta especie? Esta página está pensada
+            para crecer como recurso académico.
+          </p>
+          <ActionLink to="/contact" tone="onDark">
+            Escríbenos
+          </ActionLink>
+        </Reveal>
+      </Section>
+    </>
+  );
+}
