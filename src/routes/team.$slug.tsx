@@ -6,8 +6,9 @@ import {
   PendingBadge,
   Section,
 } from "@/components/ui/primitives";
-import { lab } from "@/data/lab";
-import { team } from "@/data/team";
+import { useLab, lab as labEs } from "@/data/lab";
+import { team, useTeam } from "@/data/team";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/team/$slug")({
   loader: ({ params }) => {
@@ -42,27 +43,77 @@ export const Route = createFileRoute("/team/$slug")({
   notFoundComponent: MemberNotFound,
 });
 
+const copy = {
+  es: {
+    notFound: "Perfil no encontrado",
+    seeTeam: "Ver el equipo",
+    demo: "Perfil de demostración",
+    photoSlot: "Espacio para fotografía",
+    role: "Cargo",
+    institution: "Institución",
+    bio: "Semblanza",
+    education: "Formación académica",
+    lines: "Líneas de investigación",
+    program: "Programa académico",
+    degree: "Grado",
+    project: "Proyecto",
+    topic: "Tema de investigación",
+    organism: "Organismo de estudio",
+    email: "Correo",
+    orcid: "ORCID",
+    scholar: "Google Scholar",
+    pending: "[Pendiente] Por confirmar.",
+    back: "Volver al equipo",
+  },
+  en: {
+    notFound: "Profile not found",
+    seeTeam: "View the team",
+    demo: "Demo profile",
+    photoSlot: "Space for photograph",
+    role: "Position",
+    institution: "Institution",
+    bio: "Biography",
+    education: "Academic background",
+    lines: "Research lines",
+    program: "Academic program",
+    degree: "Degree",
+    project: "Project",
+    topic: "Research topic",
+    organism: "Study organism",
+    email: "Email",
+    orcid: "ORCID",
+    scholar: "Google Scholar",
+    pending: "[Pending] To be confirmed.",
+    back: "Back to the team",
+  },
+};
+
 function MemberNotFound() {
+  const t = useLocalized(copy);
   return (
     <Section>
-      <h1 className="text-3xl">Perfil no encontrado</h1>
+      <h1 className="text-3xl">{t.notFound}</h1>
       <div className="mt-6">
-        <ArrowLink to="/team">Ver el equipo</ArrowLink>
+        <ArrowLink to="/team">{t.seeTeam}</ArrowLink>
       </div>
     </Section>
   );
 }
 
 function MemberDetail() {
-  const { member } = Route.useLoaderData();
-  const isLead = member.slug === lab.lead.slug;
+  const { member: staticMember } = Route.useLoaderData();
+  const t = useLocalized(copy);
+  const lab = useLab();
+  const team = useTeam();
+  const member = team.find((m) => m.slug === staticMember.slug) ?? staticMember;
+  const isLead = member.slug === labEs.lead.slug;
 
   return (
     <>
       <PageHero eyebrow={member.category} title={member.name} lede={member.topic}>
         {member.placeholder ? (
           <div className="mt-8">
-            <PendingBadge label="Perfil de demostración" />
+            <PendingBadge label={t.demo} />
           </div>
         ) : null}
       </PageHero>
@@ -71,43 +122,37 @@ function MemberDetail() {
         <div className="grid gap-12 md:grid-cols-[0.7fr_1.3fr]">
           <div className="flex aspect-[4/5] items-center justify-center rounded-sm border border-dashed border-border bg-secondary">
             <span className="px-6 text-center font-mono text-[11px] tracking-wide text-muted-foreground uppercase">
-              Espacio para fotografía
+              {t.photoSlot}
             </span>
           </div>
           <dl>
             {isLead ? (
               <>
-                <DataRow label="Cargo" value={lab.lead.role} />
-                <DataRow label="Institución" value={`${lab.center} · ${lab.institution}`} />
-                <DataRow label="Semblanza" value={lab.lead.bio} />
-                <DataRow label="Formación académica" value={lab.lead.education.join(" · ")} />
-                <DataRow
-                  label="Líneas de investigación"
-                  value={lab.lead.researchLines.join(" · ")}
-                />
+                <DataRow label={t.role} value={lab.lead.role} />
+                <DataRow label={t.institution} value={`${lab.center} · ${lab.institution}`} />
+                <DataRow label={t.bio} value={lab.lead.bio} />
+                <DataRow label={t.education} value={lab.lead.education.join(" · ")} />
+                <DataRow label={t.lines} value={lab.lead.researchLines.join(" · ")} />
               </>
             ) : (
               <>
-                <DataRow label="Programa académico" value={member.program} />
-                <DataRow label="Grado" value={member.degree} />
-                <DataRow label="Proyecto" value={member.project} />
-                <DataRow label="Tema de investigación" value={member.topic} />
+                <DataRow label={t.program} value={member.program} />
+                <DataRow label={t.degree} value={member.degree} />
+                <DataRow label={t.project} value={member.project} />
+                <DataRow label={t.topic} value={member.topic} />
               </>
             )}
             <DataRow
-              label="Organismo de estudio"
+              label={t.organism}
               value={<span className="species">{member.organism}</span>}
             />
-            <DataRow label="Correo" value={member.email ?? "[Pendiente] Por confirmar."} />
-            <DataRow label="ORCID" value={member.orcid ?? "[Pendiente] Por confirmar."} />
-            <DataRow
-              label="Google Scholar"
-              value={member.scholar ?? "[Pendiente] Por confirmar."}
-            />
+            <DataRow label={t.email} value={member.email ?? t.pending} />
+            <DataRow label={t.orcid} value={member.orcid ?? t.pending} />
+            <DataRow label={t.scholar} value={member.scholar ?? t.pending} />
           </dl>
         </div>
         <div className="mt-12">
-          <ArrowLink to="/team">Volver al equipo</ArrowLink>
+          <ArrowLink to="/team">{t.back}</ArrowLink>
         </div>
       </Section>
     </>

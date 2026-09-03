@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { PageHero, PendingBadge, Section } from "@/components/ui/primitives";
-import { news } from "@/data/news";
+import { useNews } from "@/data/news";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/news/")({
   component: NewsPage,
@@ -22,16 +23,31 @@ export const Route = createFileRoute("/news/")({
   }),
 });
 
+const copy = {
+  es: {
+    eyebrow: "Actualidad",
+    title: "Noticias del laboratorio",
+    lede: "Publicaciones, congresos, defensas de tesis, premios, estancias y colaboraciones.",
+    badge: "Notas de demostración",
+    read: "Leer nota",
+  },
+  en: {
+    eyebrow: "Latest",
+    title: "Laboratory news",
+    lede: "Publications, conferences, thesis defenses, awards, research stays and collaborations.",
+    badge: "Demonstration entries",
+    read: "Read note",
+  },
+};
+
 function NewsPage() {
+  const t = useLocalized(copy);
+  const news = useNews();
   return (
     <>
-      <PageHero
-        eyebrow="Actualidad"
-        title="Noticias del laboratorio"
-        lede="Publicaciones, congresos, defensas de tesis, premios, estancias y colaboraciones."
-      >
+      <PageHero eyebrow={t.eyebrow} title={t.title} lede={t.lede}>
         <div className="mt-8">
-          <PendingBadge label="Notas de demostración" />
+          <PendingBadge label={t.badge} />
         </div>
       </PageHero>
 
@@ -50,7 +66,7 @@ function NewsPage() {
                 <h2 className="text-2xl leading-snug">{n.title}</h2>
                 <p className="text-sm leading-relaxed text-muted-foreground">{n.excerpt}</p>
                 <span className="mt-auto pt-6 text-sm text-primary">
-                  Leer nota{" "}
+                  {t.read}{" "}
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                     →
                   </span>

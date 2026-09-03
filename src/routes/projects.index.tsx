@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, PageHero, PendingBadge, Section } from "@/components/ui/primitives";
-import { projects } from "@/data/projects";
+import { useProjects } from "@/data/projects";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/projects/")({
   component: ProjectsPage,
@@ -25,16 +26,37 @@ export const Route = createFileRoute("/projects/")({
   }),
 });
 
+const copy = {
+  es: {
+    eyebrow: "Proyectos",
+    title: "Proyectos de investigación",
+    lede: "Cada ficha reúne la pregunta de investigación, el organismo de estudio, la metodología, el equipo participante y el estado del proyecto.",
+    badge: "Fichas de demostración",
+    cta: "Ver ficha del proyecto",
+    organism: "Organismo",
+    period: "Periodo",
+    funding: "Financiamiento",
+  },
+  en: {
+    eyebrow: "Projects",
+    title: "Research projects",
+    lede: "Each record brings together the research question, study organism, methodology, participating team and project status.",
+    badge: "Demonstration records",
+    cta: "View project record",
+    organism: "Organism",
+    period: "Period",
+    funding: "Funding",
+  },
+};
+
 function ProjectsPage() {
+  const t = useLocalized(copy);
+  const projects = useProjects();
   return (
     <>
-      <PageHero
-        eyebrow="Proyectos"
-        title="Proyectos de investigación"
-        lede="Cada ficha reúne la pregunta de investigación, el organismo de estudio, la metodología, el equipo participante y el estado del proyecto."
-      >
+      <PageHero eyebrow={t.eyebrow} title={t.title} lede={t.lede}>
         <div className="mt-8">
-          <PendingBadge label="Fichas de demostración" />
+          <PendingBadge label={t.badge} />
         </div>
       </PageHero>
 
@@ -54,7 +76,7 @@ function ProjectsPage() {
                     {p.question}
                   </p>
                   <span className="mt-7 inline-flex items-center gap-2 border-b border-primary/25 pb-1 text-sm text-primary">
-                    Ver ficha del proyecto
+                    {t.cta}
                     <span className="transition-transform duration-300 group-hover:translate-x-1">
                       →
                     </span>
@@ -62,15 +84,15 @@ function ProjectsPage() {
                 </div>
                 <dl className="space-y-3 text-sm md:pt-12">
                   <div>
-                    <dt className="eyebrow">Organismo</dt>
+                    <dt className="eyebrow">{t.organism}</dt>
                     <dd className="species mt-1 text-foreground/85">{p.organism}</dd>
                   </div>
                   <div>
-                    <dt className="eyebrow">Periodo</dt>
+                    <dt className="eyebrow">{t.period}</dt>
                     <dd className="mt-1 text-foreground/70">{p.period}</dd>
                   </div>
                   <div>
-                    <dt className="eyebrow">Financiamiento</dt>
+                    <dt className="eyebrow">{t.funding}</dt>
                     <dd className="mt-1 text-foreground/70">{p.funding}</dd>
                   </div>
                 </dl>

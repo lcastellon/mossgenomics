@@ -11,7 +11,57 @@ import {
   Sp,
   Tag,
 } from "@/components/ui/primitives";
-import { species, speciesSections } from "@/data/pseudocrossidium";
+import { useSpecies, useSpeciesSections } from "@/data/pseudocrossidium";
+import { useLocalized } from "@/lib/i18n";
+
+const copy = {
+  es: {
+    whatIsIt: "¿Qué es?",
+    whyMoss: "¿Por qué estudiar un musgo?",
+    whatWeStudy: "¿Qué estudiamos?",
+    resource: "Recurso académico",
+    sheet: "Ficha de la especie",
+    sheetLede:
+      "Estructura preparada para incorporar información científica verificada. Los apartados marcados esperan contenido proporcionado por el laboratorio.",
+    pending: "Contenido por confirmar",
+    photos: "Fotografías",
+    gallery: "Galería de la especie",
+    galleryLede:
+      "Imágenes de referencia. Se sustituirán por fotografías propias de la especie y de su cultivo en el laboratorio.",
+    cap1: "Cultivo in vitro · [placeholder]",
+    cap2: "Protonema · [placeholder]",
+    cap3: "Gametófitos · [placeholder]",
+    alt1: "Cultivo de musgo en caja de Petri",
+    alt2: "Micrografía de protonema",
+    alt3: "Gametófitos de musgo",
+    heroAlt: "Detalle macro de gametófitos de musgo",
+    cta: "¿Tienes información, fotografías o datos sobre esta especie? Esta página está pensada para crecer como recurso académico.",
+    write: "Escríbenos",
+  },
+  en: {
+    whatIsIt: "What is it?",
+    whyMoss: "Why study a moss?",
+    whatWeStudy: "What do we study?",
+    resource: "Academic resource",
+    sheet: "Species profile",
+    sheetLede:
+      "A structure ready to hold verified scientific information. The marked sections await content provided by the laboratory.",
+    pending: "Content to be confirmed",
+    photos: "Photographs",
+    gallery: "Species gallery",
+    galleryLede:
+      "Reference images. They will be replaced with our own photographs of the species and its laboratory culture.",
+    cap1: "In vitro culture · [placeholder]",
+    cap2: "Protonema · [placeholder]",
+    cap3: "Gametophytes · [placeholder]",
+    alt1: "Moss culture in a Petri dish",
+    alt2: "Protonema micrograph",
+    alt3: "Moss gametophytes",
+    heroAlt: "Macro detail of moss gametophytes",
+    cta: "Do you have information, photographs or data about this species? This page is meant to grow as an academic resource.",
+    write: "Write to us",
+  },
+};
 
 export const Route = createFileRoute("/pseudocrossidium-replicatum")({
   component: SpeciesPage,
@@ -37,12 +87,16 @@ export const Route = createFileRoute("/pseudocrossidium-replicatum")({
 });
 
 function SpeciesPage() {
+  const t = useLocalized(copy);
+  const species = useSpecies();
+  const speciesSections = useSpeciesSections();
+
   return (
     <>
       <header className="relative isolate flex min-h-[78svh] items-end overflow-hidden bg-primary">
         <img
           src={mossDetail}
-          alt="Detalle macro de gametófitos de musgo"
+          alt={t.heroAlt}
           width={1408}
           height={1600}
           className="absolute inset-0 size-full object-cover"
@@ -67,16 +121,16 @@ function SpeciesPage() {
       <Section tone="paper">
         <div className="grid gap-12 md:grid-cols-2">
           <Reveal>
-            <h2 className="text-2xl">¿Qué es?</h2>
+            <h2 className="text-2xl">{t.whatIsIt}</h2>
             <p className="mt-4 leading-relaxed text-foreground/80">{species.whatIsIt}</p>
           </Reveal>
           <Reveal delay={100}>
-            <h2 className="text-2xl">¿Por qué estudiar un musgo?</h2>
+            <h2 className="text-2xl">{t.whyMoss}</h2>
             <p className="mt-4 leading-relaxed text-foreground/80">{species.whyMoss}</p>
           </Reveal>
         </div>
         <Reveal className="mt-14 rule-top pt-10">
-          <Eyebrow>¿Qué estudiamos?</Eyebrow>
+          <Eyebrow>{t.whatWeStudy}</Eyebrow>
           <div className="mt-5 flex flex-wrap gap-2.5">
             {species.topics.map((t) => (
               <Tag key={t}>{t}</Tag>
@@ -88,14 +142,11 @@ function SpeciesPage() {
       <Section className="border-t border-border">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <Eyebrow>Recurso académico</Eyebrow>
-            <h2 className="mt-4 text-3xl md:text-4xl">Ficha de la especie</h2>
-            <p className="mt-5 leading-relaxed text-muted-foreground">
-              Estructura preparada para incorporar información científica verificada. Los
-              apartados marcados esperan contenido proporcionado por el laboratorio.
-            </p>
+            <Eyebrow>{t.resource}</Eyebrow>
+            <h2 className="mt-4 text-3xl md:text-4xl">{t.sheet}</h2>
+            <p className="mt-5 leading-relaxed text-muted-foreground">{t.sheetLede}</p>
           </div>
-          <PendingBadge label="Contenido por confirmar" />
+          <PendingBadge label={t.pending} />
         </Reveal>
 
         <div className="mt-12 grid gap-px bg-border md:grid-cols-2">
@@ -115,18 +166,15 @@ function SpeciesPage() {
 
       <Section tone="paper" className="border-t border-border">
         <Reveal>
-          <Eyebrow>Fotografías</Eyebrow>
-          <h2 className="mt-4 text-3xl md:text-4xl">Galería de la especie</h2>
-          <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
-            Imágenes de referencia. Se sustituirán por fotografías propias de la especie y de su
-            cultivo en el laboratorio.
-          </p>
+          <Eyebrow>{t.photos}</Eyebrow>
+          <h2 className="mt-4 text-3xl md:text-4xl">{t.gallery}</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{t.galleryLede}</p>
         </Reveal>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
-            { src: petri, caption: "Cultivo in vitro · [placeholder]", alt: "Cultivo de musgo en caja de Petri" },
-            { src: protonema, caption: "Protonema · [placeholder]", alt: "Micrografía de protonema" },
-            { src: mossDetail, caption: "Gametófitos · [placeholder]", alt: "Gametófitos de musgo" },
+            { src: petri, caption: t.cap1, alt: t.alt1 },
+            { src: protonema, caption: t.cap2, alt: t.alt2 },
+            { src: mossDetail, caption: t.cap3, alt: t.alt3 },
           ].map((img, i) => (
             <Reveal key={img.caption} delay={i * 90}>
               <img
@@ -143,12 +191,9 @@ function SpeciesPage() {
 
       <Section tone="forest">
         <Reveal className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          <p className="max-w-2xl text-2xl leading-snug text-primary-foreground md:text-3xl">
-            ¿Tienes información, fotografías o datos sobre esta especie? Esta página está pensada
-            para crecer como recurso académico.
-          </p>
+          <p className="max-w-2xl text-2xl leading-snug text-primary-foreground md:text-3xl">{t.cta}</p>
           <ActionLink to="/contact" tone="onDark">
-            Escríbenos
+            {t.write}
           </ActionLink>
         </Reveal>
       </Section>

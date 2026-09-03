@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { ActionLink, Eyebrow, PageHero, Section } from "@/components/ui/primitives";
-import { lab } from "@/data/lab";
+import { useLab } from "@/data/lab";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/join")({
   component: JoinPage,
@@ -25,38 +26,75 @@ export const Route = createFileRoute("/join")({
   }),
 });
 
-const areas = [
-  {
-    title: "Licenciatura",
-    items: ["Servicio social", "Estancias", "Proyectos de investigación", "Tesis"],
-  },
-  {
-    title: "Posgrado",
-    items: ["Maestría", "Doctorado", "Estancias de investigación"],
-  },
-  {
-    title: "Colaboración",
-    items: [
-      "Colaboraciones académicas",
-      "Proyectos conjuntos",
-      "Intercambio de estudiantes",
-      "Estancias científicas",
+const copy = {
+  es: {
+    eyebrow: "Formación",
+    title: "Haz ciencia con nosotros",
+    lede: (labNumber: string) =>
+      `El ${labNumber} participa en la formación de estudiantes interesados en genómica funcional, biología molecular, fisiología vegetal, biotecnología y edición genética.`,
+    areas: [
+      {
+        title: "Licenciatura",
+        items: ["Servicio social", "Estancias", "Proyectos de investigación", "Tesis"],
+      },
+      {
+        title: "Posgrado",
+        items: ["Maestría", "Doctorado", "Estancias de investigación"],
+      },
+      {
+        title: "Colaboración",
+        items: [
+          "Colaboraciones académicas",
+          "Proyectos conjuntos",
+          "Intercambio de estudiantes",
+          "Estancias científicas",
+        ],
+      },
     ],
+    ctaText:
+      "Cuéntanos qué te interesa investigar y en qué etapa de tu formación te encuentras.",
+    ctaLink: "Quiero integrarme al laboratorio",
   },
-];
+  en: {
+    eyebrow: "Training",
+    title: "Do science with us",
+    lede: (labNumber: string) =>
+      `${labNumber} takes part in training students interested in functional genomics, molecular biology, plant physiology, biotechnology and gene editing.`,
+    areas: [
+      {
+        title: "Undergraduate",
+        items: ["Social service", "Research stays", "Research projects", "Thesis"],
+      },
+      {
+        title: "Graduate",
+        items: ["Master's", "Doctorate", "Research stays"],
+      },
+      {
+        title: "Collaboration",
+        items: [
+          "Academic collaborations",
+          "Joint projects",
+          "Student exchange",
+          "Scientific stays",
+        ],
+      },
+    ],
+    ctaText: "Tell us what you would like to research and where you are in your training.",
+    ctaLink: "I want to join the laboratory",
+  },
+};
 
 function JoinPage() {
+  const t = useLocalized(copy);
+  const lab = useLab();
+
   return (
     <>
-      <PageHero
-        eyebrow="Formación"
-        title="Haz ciencia con nosotros"
-        lede={`El ${lab.number} participa en la formación de estudiantes interesados en genómica funcional, biología molecular, fisiología vegetal, biotecnología y edición genética.`}
-      />
+      <PageHero eyebrow={t.eyebrow} title={t.title} lede={t.lede(lab.number)} />
 
       <Section>
         <div className="grid gap-px bg-border md:grid-cols-3">
-          {areas.map((a, i) => (
+          {t.areas.map((a, i) => (
             <Reveal key={a.title} delay={i * 90} className="bg-background">
               <article className="flex h-full flex-col p-8 md:p-10">
                 <Eyebrow>{String(i + 1).padStart(2, "0")}</Eyebrow>
@@ -81,10 +119,10 @@ function JoinPage() {
       <Section tone="forest">
         <Reveal className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <p className="max-w-2xl text-2xl leading-snug text-primary-foreground md:text-3xl">
-            Cuéntanos qué te interesa investigar y en qué etapa de tu formación te encuentras.
+            {t.ctaText}
           </p>
           <ActionLink to="/contact" tone="onDark">
-            Quiero integrarme al laboratorio
+            {t.ctaLink}
           </ActionLink>
         </Reveal>
       </Section>
