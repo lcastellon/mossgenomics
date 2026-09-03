@@ -13,7 +13,7 @@ const DEFAULT_LANGUAGE: Language = "es";
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function getInitialLanguage(): Language {
+function readStoredLanguage(): Language {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === "es" || stored === "en") return stored;
@@ -21,7 +21,13 @@ function getInitialLanguage(): Language {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  // Start with the default to match SSR and avoid hydration mismatches;
+  // localStorage is read after hydration in a useEffect.
+  const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
+
+  useEffect(() => {
+    setLanguageState(readStoredLanguage());
+  }, []);
 
   const setLanguage = useCallback((next: Language) => {
     setLanguageState(next);
