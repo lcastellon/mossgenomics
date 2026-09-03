@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, PageHero, PendingBadge, Section } from "@/components/ui/primitives";
+import { submitContact } from "@/lib/contact.functions";
 import { lab } from "@/data/lab";
 
 export const Route = createFileRoute("/contact")({
@@ -39,12 +41,43 @@ const reasons = [
 const fieldClass =
   "mt-2 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-verdant";
 
-function ContactPage() {
-  const [sent, setSent] = useState(false);
+type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+function ContactPage() {
+  const submit = useServerFn(submitContact);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const result = await submit({
+        data: {
+          name: String(formData.get("nombre") ?? ""),
+          institution: String(formData.get("institucion") ?? ""),
+          email: String(formData.get("correo") ?? ""),
+          reason: String(formData.get("motivo") ?? ""),
+          message: String(formData.get("mensaje") ?? ""),
+        },
+      });
+
+      if (result.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+        setErrorMessage(result.error || "No se pudo enviar el mensaje.");
+      }
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
+    }
   };
 
   return (
@@ -154,20 +187,23 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                disabled={status === "submitting"}
+                className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Enviar mensaje
+                {status === "submitting" ? "Enviando..." : "Enviar mensaje"}
               </button>
 
-              {sent ? (
+              {status === "success" && (
                 <p className="text-sm text-verdant">
-                  Gracias por escribir. El envío de correos aún no está conectado: se habilitará
-                  junto con el correo institucional del laboratorio.
+                  Gracias por escribir. Tu mensaje ha sido guardado y lo revisaremos pronto.
                 </p>
-              ) : (
+              )}
+              {status === "error" && (
+                <p className="text-sm text-destructive">{errorMessage}</p>
+              )}
+              {status === "idle" && (
                 <p className="text-xs text-muted-foreground">
-                  El formulario todavía no envía correos. Se conectará cuando se confirme el
-                  correo institucional del laboratorio.
+                  Tu mensaje se guarda de forma segura en nuestro sistema.
                 </p>
               )}
             </form>
