@@ -8,8 +8,9 @@ import {
   SectionTitle,
   Sp,
 } from "@/components/ui/primitives";
-import { lab } from "@/data/lab";
-import { geneToPhenotype, researchAreas } from "@/data/researchAreas";
+import { useLab } from "@/data/lab";
+import { useGeneToPhenotype, useResearchAreas } from "@/data/researchAreas";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/research")({
   component: ResearchPage,
@@ -34,16 +35,49 @@ export const Route = createFileRoute("/research")({
   }),
 });
 
+const copy = {
+  es: {
+    eyebrow: "Nuestra investigación",
+    title: "Comprender cómo las plantas perciben, responden y se adaptan a su ambiente",
+    ledeBefore: (labNumber: string) =>
+      `El ${labNumber} estudia los mecanismos moleculares de la adaptación vegetal, con el musgo mexicano `,
+    ledeAfter: " como principal modelo de estudio.",
+    workflow: "Flujo de trabajo",
+    workflowTitle: "Del gen al fenotipo",
+    methodsTitle: "Metodologías y proyectos",
+    technologies: "Cómo estudiamos la función de los genes",
+    projects: "Proyectos de investigación",
+  },
+  en: {
+    eyebrow: "Our research",
+    title: "Understanding how plants sense, respond and adapt to their environment",
+    ledeBefore: (labNumber: string) =>
+      `${labNumber} studies the molecular mechanisms of plant adaptation, using the Mexican moss `,
+    ledeAfter: " as its main study model.",
+    workflow: "Workflow",
+    workflowTitle: "From gene to phenotype",
+    methodsTitle: "Methods and projects",
+    technologies: "How we study gene function",
+    projects: "Research projects",
+  },
+};
+
 function ResearchPage() {
+  const t = useLocalized(copy);
+  const lab = useLab();
+  const researchAreas = useResearchAreas();
+  const geneToPhenotype = useGeneToPhenotype();
+
   return (
     <>
       <PageHero
-        eyebrow="Nuestra investigación"
-        title="Comprender cómo las plantas perciben, responden y se adaptan a su ambiente"
+        eyebrow={t.eyebrow}
+        title={t.title}
         lede={
           <>
-            El {lab.number} estudia los mecanismos moleculares de la adaptación vegetal, con el
-            musgo mexicano <Sp>Pseudocrossidium replicatum</Sp> como principal modelo de estudio.
+            {t.ledeBefore(lab.number)}
+            <Sp>Pseudocrossidium replicatum</Sp>
+            {t.ledeAfter}
           </>
         }
       />
@@ -80,8 +114,8 @@ function ResearchPage() {
 
       <Section tone="forest">
         <Reveal className="max-w-3xl">
-          <Eyebrow className="text-primary-foreground/50">Flujo de trabajo</Eyebrow>
-          <SectionTitle className="text-primary-foreground">Del gen al fenotipo</SectionTitle>
+          <Eyebrow className="text-primary-foreground/50">{t.workflow}</Eyebrow>
+          <SectionTitle className="text-primary-foreground">{t.workflowTitle}</SectionTitle>
         </Reveal>
         <ol className="mt-14 grid gap-px bg-primary-foreground/15 md:grid-cols-6">
           {geneToPhenotype.map((s, i) => (
@@ -104,12 +138,12 @@ function ResearchPage() {
 
       <Section tone="paper" className="border-t border-border">
         <Reveal className="flex flex-wrap items-center justify-between gap-6">
-          <SectionTitle className="mt-0">Metodologías y proyectos</SectionTitle>
+          <SectionTitle className="mt-0">{t.methodsTitle}</SectionTitle>
           <div className="flex flex-wrap gap-3">
             <ActionLink to="/technologies" tone="outline">
-              Cómo estudiamos la función de los genes
+              {t.technologies}
             </ActionLink>
-            <ActionLink to="/projects">Proyectos de investigación</ActionLink>
+            <ActionLink to="/projects">{t.projects}</ActionLink>
           </div>
         </Reveal>
       </Section>
