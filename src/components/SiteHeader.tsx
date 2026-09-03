@@ -23,7 +23,7 @@ export function SiteHeader() {
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
         scrolled || open
           ? "border-b border-border bg-background/92 backdrop-blur-xl"
-          : "border-b border-transparent bg-background/60 backdrop-blur-sm",
+          : "border-b border-transparent bg-background/80 backdrop-blur-md",
       )}
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-3.5 md:px-10">
