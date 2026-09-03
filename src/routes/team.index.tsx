@@ -8,8 +8,9 @@ import {
   Section,
   Sp,
 } from "@/components/ui/primitives";
-import { lab } from "@/data/lab";
-import { team, teamCategories } from "@/data/team";
+import { useLab } from "@/data/lab";
+import { useTeam, useTeamCategories } from "@/data/team";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/team/")({
   component: TeamPage,
@@ -30,22 +31,62 @@ export const Route = createFileRoute("/team/")({
   }),
 });
 
+const copy = {
+  es: {
+    eyebrow: "Equipo",
+    title: "Nuestro equipo",
+    lede: "La ciencia es un trabajo colectivo.",
+    lead: "Responsable del laboratorio",
+    photoSlot: "Espacio para fotografía",
+    photo: "Fotografía",
+    bio: "Semblanza",
+    education: "Formación académica",
+    lines: "Líneas de investigación",
+    profiles: "Perfiles y contacto",
+    profilesValue: "ORCID · Google Scholar · ResearchGate · Correo institucional",
+    pending: "Por confirmar",
+    fullProfile: "Ver perfil completo →",
+    leadCategory: "Investigador responsable",
+    empty: "[Pendiente] Sin integrantes registrados en esta categoría.",
+    worksWith: "Trabaja con ",
+  },
+  en: {
+    eyebrow: "Team",
+    title: "Our team",
+    lede: "Science is collective work.",
+    lead: "Laboratory head",
+    photoSlot: "Space for photograph",
+    photo: "Photograph",
+    bio: "Biography",
+    education: "Academic background",
+    lines: "Research lines",
+    profiles: "Profiles and contact",
+    profilesValue: "ORCID · Google Scholar · ResearchGate · Institutional email",
+    pending: "To be confirmed",
+    fullProfile: "View full profile →",
+    leadCategory: "Principal investigator",
+    empty: "[Pending] No members registered in this category.",
+    worksWith: "Works with ",
+  },
+};
+
 function TeamPage() {
+  const t = useLocalized(copy);
+  const lab = useLab();
+  const team = useTeam();
+  const teamCategories = useTeamCategories();
+
   return (
     <>
-      <PageHero
-        eyebrow="Equipo"
-        title="Nuestro equipo"
-        lede="La ciencia es un trabajo colectivo."
-      />
+      <PageHero eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
 
       <Section tone="paper">
         <div className="grid gap-12 md:grid-cols-[0.7fr_1.3fr]">
           <Reveal>
-            <Eyebrow>Responsable del laboratorio</Eyebrow>
+            <Eyebrow>{t.lead}</Eyebrow>
             <div className="mt-6 flex aspect-[4/5] items-center justify-center rounded-sm border border-dashed border-border bg-secondary">
               <span className="px-6 text-center font-mono text-[11px] tracking-wide text-muted-foreground uppercase">
-                Espacio para fotografía
+                {t.photoSlot}
               </span>
             </div>
           </Reveal>
@@ -57,21 +98,20 @@ function TeamPage() {
             </p>
             <dl className="mt-10">
               <DataRow
-                label="Semblanza"
+                label={t.bio}
                 value={
                   <span className="flex flex-wrap items-center gap-3">
                     {lab.lead.bio} <PendingBadge />
                   </span>
                 }
               />
-              <DataRow label="Formación académica" value={lab.lead.education.join(" · ")} />
-              <DataRow label="Líneas de investigación" value={lab.lead.researchLines.join(" · ")} />
+              <DataRow label={t.education} value={lab.lead.education.join(" · ")} />
+              <DataRow label={t.lines} value={lab.lead.researchLines.join(" · ")} />
               <DataRow
-                label="Perfiles y contacto"
+                label={t.profiles}
                 value={
                   <span className="flex flex-wrap items-center gap-3">
-                    ORCID · Google Scholar · ResearchGate · Correo institucional{" "}
-                    <PendingBadge label="Por confirmar" />
+                    {t.profilesValue} <PendingBadge label={t.pending} />
                   </span>
                 }
               />
@@ -82,7 +122,7 @@ function TeamPage() {
                 params={{ slug: lab.lead.slug }}
                 className="inline-flex items-center gap-2 border-b border-primary/25 pb-1 text-sm text-primary"
               >
-                Ver perfil completo →
+                {t.fullProfile}
               </Link>
             </div>
           </Reveal>
@@ -91,7 +131,7 @@ function TeamPage() {
 
       <Section className="border-t border-border">
         {teamCategories
-          .filter((c) => c !== "Investigador responsable")
+          .filter((c) => c !== t.leadCategory)
           .map((category) => {
             const members = team.filter((m) => m.category === category);
             return (
@@ -99,9 +139,7 @@ function TeamPage() {
                 <div className="grid gap-8 md:grid-cols-[220px_1fr]">
                   <h2 className="font-display text-xl">{category}</h2>
                   {members.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">
-                      [Pendiente] Sin integrantes registrados en esta categoría.
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t.empty}</p>
                   ) : (
                     <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                       {members.map((m) => (
@@ -113,14 +151,15 @@ function TeamPage() {
                           >
                             <div className="mb-4 flex aspect-square items-center justify-center rounded-sm bg-secondary">
                               <span className="font-mono text-[10px] tracking-[0.14em] text-muted-foreground uppercase">
-                                Fotografía
+                                {t.photo}
                               </span>
                             </div>
                             <p className="font-display text-lg leading-tight">{m.name}</p>
                             <p className="mt-1 text-xs text-muted-foreground">{m.program}</p>
                             {m.worksWithSpecies ? (
                               <p className="mt-4 font-mono text-[10px] tracking-[0.12em] text-verdant uppercase">
-                                Trabaja con <Sp>P. replicatum</Sp>
+                                {t.worksWith}
+                                <Sp>P. replicatum</Sp>
                               </p>
                             ) : null}
                           </Link>
