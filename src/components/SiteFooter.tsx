@@ -23,7 +23,7 @@ export function SiteFooter() {
         </div>
 
         <nav>
-          <p className="eyebrow text-primary-foreground/50">Navegación</p>
+          <p className="eyebrow text-primary-foreground/50">{copy.navigation}</p>
           <ul className="mt-5 space-y-2.5">
             {footerLinks.map((l) => (
               <li key={l.to}>
@@ -39,7 +39,7 @@ export function SiteFooter() {
         </nav>
 
         <div>
-          <p className="eyebrow text-primary-foreground/50">Institucional</p>
+          <p className="eyebrow text-primary-foreground/50">{copy.institutional}</p>
           <ul className="mt-5 space-y-2.5">
             {lab.institutionalLinks.map((l) => (
               <li key={l.href}>
