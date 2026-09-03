@@ -21,6 +21,7 @@ import { useGeneToPhenotype, useResearchAreas } from "@/data/researchAreas";
 import { useSpecies } from "@/data/pseudocrossidium";
 import { useNews } from "@/data/news";
 import { useLocalized } from "@/lib/i18n";
+import { italicizeSpecies } from "@/lib/italicize-species";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -283,11 +284,11 @@ function Index() {
         <div className="mt-16 grid gap-12 md:grid-cols-2">
           <Reveal>
             <h3 className="text-2xl">{t.whatIsIt}</h3>
-            <p className="mt-4 leading-relaxed text-foreground/80">{species.whatIsIt}</p>
+            <p className="mt-4 leading-relaxed text-foreground/80">{italicizeSpecies(species.whatIsIt)}</p>
           </Reveal>
           <Reveal delay={120}>
             <h3 className="text-2xl">{t.whyMoss}</h3>
-            <p className="mt-4 leading-relaxed text-foreground/80">{species.whyMoss}</p>
+            <p className="mt-4 leading-relaxed text-foreground/80">{italicizeSpecies(species.whyMoss)}</p>
           </Reveal>
         </div>
 
@@ -323,7 +324,7 @@ function Index() {
                 </span>
                 <h3 className="mt-5 text-2xl md:text-3xl">{area.title}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  {area.summary}
+                  {italicizeSpecies(area.summary)}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {area.keywords.map((k) => (
