@@ -10,33 +10,116 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PseudocrossidiumReplicatumRouteImport } from './routes/pseudocrossidium-replicatum'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as TeamIndexRouteImport } from './routes/team.index'
+import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PseudocrossidiumReplicatumRoute =
+  PseudocrossidiumReplicatumRouteImport.update({
+    id: '/pseudocrossidium-replicatum',
+    path: '/pseudocrossidium-replicatum',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamSlugRoute = TeamSlugRouteImport.update({
+  id: '/team/$slug',
+  path: '/team/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
+  '/research': typeof ResearchRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/team/$slug': typeof TeamSlugRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/team/': typeof TeamIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
+  '/research': typeof ResearchRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/team/$slug': typeof TeamSlugRoute
+  '/projects': typeof ProjectsIndexRoute
+  '/team': typeof TeamIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
+  '/research': typeof ResearchRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/team/$slug': typeof TeamSlugRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/team/': typeof TeamIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/pseudocrossidium-replicatum'
+    | '/research'
+    | '/projects/$slug'
+    | '/team/$slug'
+    | '/projects/'
+    | '/team/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/pseudocrossidium-replicatum'
+    | '/research'
+    | '/projects/$slug'
+    | '/team/$slug'
+    | '/projects'
+    | '/team'
+  id:
+    | '__root__'
+    | '/'
+    | '/pseudocrossidium-replicatum'
+    | '/research'
+    | '/projects/$slug'
+    | '/team/$slug'
+    | '/projects/'
+    | '/team/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PseudocrossidiumReplicatumRoute: typeof PseudocrossidiumReplicatumRoute
+  ResearchRoute: typeof ResearchRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+  TeamSlugRoute: typeof TeamSlugRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
+  TeamIndexRoute: typeof TeamIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +131,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pseudocrossidium-replicatum': {
+      id: '/pseudocrossidium-replicatum'
+      path: '/pseudocrossidium-replicatum'
+      fullPath: '/pseudocrossidium-replicatum'
+      preLoaderRoute: typeof PseudocrossidiumReplicatumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/': {
+      id: '/team/'
+      path: '/team'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/$slug': {
+      id: '/team/$slug'
+      path: '/team/$slug'
+      fullPath: '/team/$slug'
+      preLoaderRoute: typeof TeamSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PseudocrossidiumReplicatumRoute: PseudocrossidiumReplicatumRoute,
+  ResearchRoute: ResearchRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
+  TeamSlugRoute: TeamSlugRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
+  TeamIndexRoute: TeamIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
