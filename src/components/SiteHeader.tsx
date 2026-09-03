@@ -86,13 +86,16 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Abrir menú"
-          className="flex size-10 items-center justify-center rounded-full border border-border text-foreground xl:hidden"
-        >
+        <div className="flex items-center gap-2">
+          <LanguageToggle className="hidden xl:inline-flex" />
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Abrir menú"
+            className="flex size-10 items-center justify-center rounded-full border border-border text-foreground xl:hidden"
+          >
           <span className="flex flex-col gap-1">
             <span className={cn("block h-px w-4 bg-current transition", open && "translate-y-[3px] rotate-45")} />
             <span className={cn("block h-px w-4 bg-current transition", open && "-translate-y-[3px] -rotate-45")} />
