@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/primitives";
 import { useSpecies, useSpeciesSections } from "@/data/pseudocrossidium";
 import { useLocalized } from "@/lib/i18n";
+import { italicizeSpecies } from "@/lib/italicize-species";
 
 const copy = {
   es: {
