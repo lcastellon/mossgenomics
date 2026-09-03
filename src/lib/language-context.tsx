@@ -54,7 +54,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 export function useLanguage(): LanguageContextValue {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
+    // Fallback for trees rendered outside the provider (error/not-found boundaries).
+    return {
+      language: DEFAULT_LANGUAGE,
+      setLanguage: () => {},
+      toggleLanguage: () => {},
+    };
   }
   return context;
 }
