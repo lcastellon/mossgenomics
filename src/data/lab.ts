@@ -1,6 +1,38 @@
 import { useLocalized } from "@/lib/i18n";
 
-export const lab = {
+export type LabInfo = {
+  number: string;
+  name: string;
+  shortInstitution: string;
+  center: string;
+  institution: string;
+  location: string;
+  lead: {
+    name: string;
+    role: string;
+    slug: string;
+    photo: string | null;
+    bio: string;
+    education: string[];
+    researchLines: string[];
+    links: {
+      orcid: string | null;
+      scholar: string | null;
+      researchgate: string | null;
+      email: string | null;
+    };
+  };
+  model: string;
+  contact: {
+    address: string;
+    email: string;
+    phone: string;
+    mapQuery: string;
+  };
+  institutionalLinks: { label: string; href: string }[];
+};
+
+export const lab: LabInfo = {
   number: "Laboratorio 11  CIBA-IPN",
   name: "Biología Molecular y Genómica Funcional de Plantas",
   shortInstitution: "CIBA · IPN",
@@ -38,9 +70,9 @@ export const lab = {
     { label: "CIBA Tlaxcala", href: "https://www.cibatlaxcala.ipn.mx/" },
     { label: "Instituto Politécnico Nacional", href: "https://www.ipn.mx/" },
   ],
-} as const;
+};
 
-const labEn = {
+const labEn: LabInfo = {
   number: "Laboratory 11  CIBA-IPN",
   name: "Molecular Biology and Functional Plant Genomics",
   shortInstitution: "CIBA · IPN",
@@ -80,7 +112,7 @@ const labEn = {
   ],
 } as const;
 
-export const labData: { es: typeof lab; en: typeof lab } = { es: lab, en: labEn };
+export const labData: { es: LabInfo; en: LabInfo } = { es: lab, en: labEn };
 export const useLab = () => useLocalized(labData);
 
 export const nav = [
