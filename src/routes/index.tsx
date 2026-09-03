@@ -88,7 +88,7 @@ function Hero() {
                 {lab.number} · {lab.shortInstitution}
               </p>
               <p className="mt-3 font-display text-lg">{lab.lead.name}</p>
-              <p className="text-sm text-primary-foreground/60">Responsable del laboratorio</p>
+              <p className="text-sm text-primary-foreground/60">{"\n"}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <ActionLink
