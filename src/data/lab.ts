@@ -1,5 +1,5 @@
 export const lab = {
-  number: "Laboratorio 11",
+  number: "Laboratorio 11  CIBA-IPN",
   name: "Biología Molecular y Genómica Funcional de Plantas",
   shortInstitution: "CIBA · IPN",
   center: "Centro de Investigación en Biotecnología Aplicada",
