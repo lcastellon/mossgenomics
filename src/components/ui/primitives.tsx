@@ -102,7 +102,7 @@ export function ActionLink({
   "to" | "className" | "children"
 >) {
   return (
-    <Link to={to} className={cn(buttonBase, buttonTones[tone], className)} {...rest}>
+    <Link to={to as never} className={cn(buttonBase, buttonTones[tone], className)} {...rest}>
       {children}
     </Link>
   );
@@ -111,7 +111,7 @@ export function ActionLink({
 export function ArrowLink({ to, children }: { to: string; children: ReactNode }) {
   return (
     <Link
-      to={to}
+      to={to as never}
       className="group inline-flex items-center gap-2 border-b border-primary/25 pb-1 text-sm font-medium text-primary transition-colors hover:border-primary"
     >
       {children}
