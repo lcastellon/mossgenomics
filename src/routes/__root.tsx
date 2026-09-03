@@ -10,11 +10,11 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-import { LanguageProvider, useLanguage } from "../lib/language-context";
-import { useLocalized } from "../lib/i18n";
-import { SiteHeader } from "../components/SiteHeader";
-import { SiteFooter } from "../components/SiteFooter";
+import { reportLovableError } from "@/lib/lovable-error-reporting";
+import { LanguageProvider, useLanguage } from "@/lib/language-context";
+import { useLocalized } from "@/lib/i18n";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const notFoundCopy = {
   es: {
