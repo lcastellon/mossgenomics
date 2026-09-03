@@ -71,7 +71,7 @@ function Hero() {
 
         <Reveal delay={120}>
           <h1 className="mt-8 max-w-4xl text-[2.6rem] leading-[1.02] md:text-7xl">
-            Genómica funcional de plantas
+            Biología Molecular y Genómica funcional de plantas
           </h1>
         </Reveal>
 
