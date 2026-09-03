@@ -29,6 +29,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lab = useLab();
+  const nav = useNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
