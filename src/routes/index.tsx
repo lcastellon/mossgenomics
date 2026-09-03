@@ -85,7 +85,7 @@ const copy = {
     petriCap: "Cultivo in vitro · [placeholder]",
     protoAlt: "Micrografía de filamentos de protonema de musgo",
     protoCap: "Protonema · [placeholder]",
-    lead: "Responsable del laboratorio",
+    lead: "\n",
     photoSlot: "Espacio para fotografía",
     bio: "Semblanza",
     lines: "Líneas de investigación",
