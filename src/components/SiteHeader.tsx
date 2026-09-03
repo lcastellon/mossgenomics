@@ -4,6 +4,27 @@ import { lab, nav } from "@/data/lab";
 import { useLanguage } from "@/lib/language-context";
 import { cn } from "@/lib/utils";
 
+function LanguageToggle({ className }: { className?: string }) {
+  const { language, toggleLanguage } = useLanguage();
+  return (
+    <button
+      type="button"
+      onClick={toggleLanguage}
+      aria-label={language === "es" ? "Switch to English" : "Cambiar a español"}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 font-mono text-[11px] tracking-[0.12em] uppercase transition-colors hover:border-verdant hover:text-foreground",
+        className,
+      )}
+    >
+      <span className={cn(language === "es" && "text-foreground")}>EN</span>
+      <span className="text-muted-foreground/60" aria-hidden>
+        /
+      </span>
+      <span className={cn(language === "en" && "text-foreground")}>ES</span>
+    </button>
+  );
+}
+
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
