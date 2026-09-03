@@ -41,7 +41,7 @@ export const lab: LabInfo = {
   location: "Tlaxcala, México",
   lead: {
     name: "Dr. Miguel Angel Villalobos López",
-    role: "Responsable del Laboratorio 11 — Genómica Funcional de Plantas",
+    role: "Laboratorio 11 — Genómica Funcional de Plantas",
     slug: "miguel-angel-villalobos-lopez",
     photo: null as string | null,
     bio: "[Pendiente] Semblanza académica del Dr. Miguel Angel Villalobos López por confirmar.",
