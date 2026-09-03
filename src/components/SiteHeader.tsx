@@ -106,6 +106,9 @@ export function SiteHeader() {
 
       {open ? (
         <nav className="border-t border-border bg-background px-6 pb-6 xl:hidden">
+          <div className="pt-4">
+            <LanguageToggle />
+          </div>
           <ul className="grid gap-1 pt-3 sm:grid-cols-2">
             {nav.map((item) => (
               <li key={item.to}>
