@@ -33,7 +33,7 @@ export const lab = {
     mapQuery: "Centro de Investigación en Biotecnología Aplicada IPN Tlaxcala",
   },
   institutionalLinks: [
-    { label: "CIBA Tlaxcala", href: "https://www.ciba.ipn.mx/" },
+    { label: "CIBA Tlaxcala", href: "https://www.cibatlaxcala.ipn.mx/" },
     { label: "Instituto Politécnico Nacional", href: "https://www.ipn.mx/" },
   ],
 } as const;
