@@ -118,7 +118,7 @@ export const useLab = () => useLocalized(labData);
 export const nav = [
   { label: "Inicio", to: "/" },
   { label: "Investigación", to: "/research" },
-  { label: "Pseudocrossidium", to: "/pseudocrossidium-replicatum" },
+  { label: "Pseudocrossidium replicatum\n", to: "/pseudocrossidium-replicatum" },
   { label: "Proyectos", to: "/projects" },
   { label: "Equipo", to: "/team" },
   { label: "Publicaciones", to: "/publications" },
@@ -131,7 +131,7 @@ export const nav = [
 const navEn = [
   { label: "Home", to: "/" },
   { label: "Research", to: "/research" },
-  { label: "Pseudocrossidium", to: "/pseudocrossidium-replicatum" },
+  { label: "Pseudocrossidium replicatum\n", to: "/pseudocrossidium-replicatum" },
   { label: "Projects", to: "/projects" },
   { label: "Team", to: "/team" },
   { label: "Publications", to: "/publications" },

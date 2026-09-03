@@ -81,7 +81,7 @@ export function SiteHeader() {
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <span className={cn(item.label === "Pseudocrossidium" && "species")}>
+                <span className={cn(item.label.startsWith("Pseudocrossidium") && "species")}>
                   {item.label}
                 </span>
               </Link>
@@ -119,7 +119,7 @@ export function SiteHeader() {
                   to={item.to}
                   className="block rounded-md px-3 py-2.5 text-sm text-foreground/85 hover:bg-secondary"
                 >
-                  <span className={cn(item.label === "Pseudocrossidium" && "species")}>
+                  <span className={cn(item.label.startsWith("Pseudocrossidium") && "species")}>
                     {item.label}
                   </span>
                 </Link>
