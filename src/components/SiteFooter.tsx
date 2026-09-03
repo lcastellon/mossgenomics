@@ -1,16 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { lab } from "@/data/lab";
-
-const footerLinks = [
-  { label: "Investigación", to: "/research" },
-  { label: "Pseudocrossidium replicatum", to: "/pseudocrossidium-replicatum" },
-  { label: "Equipo", to: "/team" },
-  { label: "Publicaciones", to: "/publications" },
-  { label: "Estudiantes", to: "/join" },
-  { label: "Contacto", to: "/contact" },
-];
+import { useLab } from "@/data/lab";
+import { useFooterCopy, useFooterLinks } from "@/data/footer";
 
 export function SiteFooter() {
+  const lab = useLab();
+  const copy = useFooterCopy();
+  const footerLinks = useFooterLinks();
   return (
     <footer className="bg-primary px-6 py-16 text-primary-foreground md:px-10 md:py-20">
       <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
@@ -28,7 +23,7 @@ export function SiteFooter() {
         </div>
 
         <nav>
-          <p className="eyebrow text-primary-foreground/50">Navegación</p>
+          <p className="eyebrow text-primary-foreground/50">{copy.navigation}</p>
           <ul className="mt-5 space-y-2.5">
             {footerLinks.map((l) => (
               <li key={l.to}>
@@ -44,7 +39,7 @@ export function SiteFooter() {
         </nav>
 
         <div>
-          <p className="eyebrow text-primary-foreground/50">Institucional</p>
+          <p className="eyebrow text-primary-foreground/50">{copy.institutional}</p>
           <ul className="mt-5 space-y-2.5">
             {lab.institutionalLinks.map((l) => (
               <li key={l.href}>
@@ -67,7 +62,7 @@ export function SiteFooter() {
           © {new Date().getFullYear()} {lab.number} · {lab.name}
         </p>
         <p className="font-mono tracking-[0.18em] uppercase">
-          Modelo de estudio · <span className="species tracking-normal normal-case">Pseudocrossidium replicatum</span>
+          {copy.studyModel} · <span className="species tracking-normal normal-case">Pseudocrossidium replicatum</span>
         </p>
       </div>
     </footer>

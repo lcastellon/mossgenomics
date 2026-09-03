@@ -11,24 +11,40 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { LanguageProvider, useLanguage } from "../lib/language-context";
+import { useLocalized } from "../lib/i18n";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 
+const notFoundCopy = {
+  es: {
+    eyebrow: "Error 404",
+    title: "Página no encontrada",
+    body: "La página que buscas no existe o fue movida.",
+    cta: "Volver al inicio",
+  },
+  en: {
+    eyebrow: "Error 404",
+    title: "Page not found",
+    body: "The page you are looking for does not exist or has been moved.",
+    cta: "Back to home",
+  },
+};
+
 function NotFoundComponent() {
+  const copy = useLocalized(notFoundCopy);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <p className="eyebrow">Error 404</p>
-        <h1 className="mt-4 text-4xl text-foreground">Página no encontrada</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          La página que buscas no existe o fue movida.
-        </p>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h1 className="mt-4 text-4xl text-foreground">{copy.title}</h1>
+        <p className="mt-3 text-sm text-muted-foreground">{copy.body}</p>
         <div className="mt-8">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90"
           >
-            Volver al inicio
+            {copy.cta}
           </Link>
         </div>
       </div>
@@ -36,9 +52,25 @@ function NotFoundComponent() {
   );
 }
 
+const errorCopy = {
+  es: {
+    title: "Esta página no se pudo cargar",
+    body: "Ocurrió un problema. Puedes intentar de nuevo o volver al inicio.",
+    retry: "Intentar de nuevo",
+    home: "Inicio",
+  },
+  en: {
+    title: "This page could not load",
+    body: "Something went wrong. You can try again or go back to the home page.",
+    retry: "Try again",
+    home: "Home",
+  },
+};
+
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const copy = useLocalized(errorCopy);
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
@@ -46,10 +78,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-2xl text-foreground">Esta página no se pudo cargar</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Ocurrió un problema. Puedes intentar de nuevo o volver al inicio.
-        </p>
+        <h1 className="text-2xl text-foreground">{copy.title}</h1>
+        <p className="mt-3 text-sm text-muted-foreground">{copy.body}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
@@ -58,13 +88,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
-            Intentar de nuevo
+            {copy.retry}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground"
           >
-            Inicio
+            {copy.home}
           </a>
         </div>
       </div>
@@ -147,13 +177,25 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <RootInner />
+      </QueryClientProvider>
+    </LanguageProvider>
+  );
+}
+
+function RootInner() {
+  const { language } = useLanguage();
+
+  return (
+    <>
       <SiteHeader />
-      <main className="min-h-screen">
+      <main className="min-h-screen" lang={language}>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>
       <SiteFooter />
-    </QueryClientProvider>
+    </>
   );
 }

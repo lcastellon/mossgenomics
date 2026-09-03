@@ -1,4 +1,5 @@
-import { PLACEHOLDER } from "./lab";
+import { useLocalized } from "@/lib/i18n";
+import { PLACEHOLDER, placeholderData } from "./lab";
 
 export const species = {
   name: "Pseudocrossidium replicatum",
@@ -19,6 +20,29 @@ export const species = {
     "Adaptación vegetal",
   ],
 };
+
+export const speciesEn = {
+  name: "Pseudocrossidium replicatum",
+  eyebrow: "Study model",
+  subtitle:
+    "A Mexican moss used to study the molecular mechanisms of plant adaptation",
+  whatIsIt:
+    "Pseudocrossidium replicatum is a moss species used by Laboratory 11 as a study organism to investigate molecular and physiological mechanisms related to plant responses to the environment.",
+  whyMoss:
+    "Mosses represent early lineages of land plants and constitute particularly interesting systems for investigating fundamental mechanisms of adaptation, genetic regulation, and response to environmental conditions.",
+  topics: [
+    "Functional genomics",
+    "Gene expression",
+    "Abiotic stress",
+    "Plant physiology",
+    "Molecular biology",
+    "Genome editing",
+    "Plant adaptation",
+  ],
+};
+
+export const speciesData = { es: species, en: speciesEn } as const;
+export const useSpecies = () => useLocalized(speciesData);
 
 export type SpeciesSection = {
   id: string;
@@ -76,3 +100,58 @@ export const speciesSections: SpeciesSection[] = [
     pending: true,
   },
 ];
+
+const PLACEHOLDER_EN = placeholderData.en;
+
+export const speciesSectionsEn: SpeciesSection[] = [
+  { id: "taxonomia", title: "Taxonomy", body: `[Pending] ${PLACEHOLDER_EN}`, pending: true },
+  { id: "distribucion", title: "Distribution", body: `[Pending] ${PLACEHOLDER_EN}`, pending: true },
+  {
+    id: "caracteristicas",
+    title: "Biological characteristics",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  { id: "habitat", title: "Habitat", body: `[Pending] ${PLACEHOLDER_EN}`, pending: true },
+  { id: "ciclo-de-vida", title: "Life cycle", body: `[Pending] ${PLACEHOLDER_EN}`, pending: true },
+  {
+    id: "importancia",
+    title: "Scientific importance",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  {
+    id: "cultivo",
+    title: "Laboratory cultivation",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  { id: "protocolos", title: "Protocols", body: `[Pending] ${PLACEHOLDER_EN}`, pending: true },
+  {
+    id: "genomica",
+    title: "Genomic characteristics",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  {
+    id: "investigaciones",
+    title: "Laboratory research",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  {
+    id: "publicaciones-especie",
+    title: "Related publications",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+  {
+    id: "estudiantes-especie",
+    title: "Students working with the species",
+    body: `[Pending] ${PLACEHOLDER_EN}`,
+    pending: true,
+  },
+];
+
+export const speciesSectionsData = { es: speciesSections, en: speciesSectionsEn } as const;
+export const useSpeciesSections = () => useLocalized(speciesSectionsData);

@@ -1,12 +1,37 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { lab, nav } from "@/data/lab";
+import { useLab, useNav } from "@/data/lab";
+import { useLanguage } from "@/lib/language-context";
 import { cn } from "@/lib/utils";
+
+function LanguageToggle({ className }: { className?: string }) {
+  const { language, toggleLanguage } = useLanguage();
+  return (
+    <button
+      type="button"
+      onClick={toggleLanguage}
+      aria-label={language === "es" ? "Switch to English" : "Cambiar a español"}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 font-mono text-[11px] tracking-[0.12em] uppercase transition-colors hover:border-verdant hover:text-foreground",
+        className,
+      )}
+    >
+      <span className={cn(language === "es" && "text-foreground")}>EN</span>
+      <span className="text-muted-foreground/60" aria-hidden>
+        /
+      </span>
+      <span className={cn(language === "en" && "text-foreground")}>ES</span>
+    </button>
+  );
+}
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { language } = useLanguage();
+  const lab = useLab();
+  const nav = useNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -64,22 +89,29 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Abrir menú"
-          className="flex size-10 items-center justify-center rounded-full border border-border text-foreground xl:hidden"
-        >
+        <div className="flex items-center gap-2">
+          <LanguageToggle className="hidden xl:inline-flex" />
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? (language === "es" ? "Cerrar menú" : "Close menu") : language === "es" ? "Abrir menú" : "Open menu"}
+            className="flex size-10 items-center justify-center rounded-full border border-border text-foreground xl:hidden"
+          >
           <span className="flex flex-col gap-1">
             <span className={cn("block h-px w-4 bg-current transition", open && "translate-y-[3px] rotate-45")} />
             <span className={cn("block h-px w-4 bg-current transition", open && "-translate-y-[3px] -rotate-45")} />
           </span>
         </button>
+        </div>
       </div>
 
       {open ? (
         <nav className="border-t border-border bg-background px-6 pb-6 xl:hidden">
+          <div className="pt-4">
+            <LanguageToggle />
+          </div>
           <ul className="grid gap-1 pt-3 sm:grid-cols-2">
             {nav.map((item) => (
               <li key={item.to}>
