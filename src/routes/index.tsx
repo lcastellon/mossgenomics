@@ -138,7 +138,7 @@ const copy = {
     petriCap: "In vitro culture · [placeholder]",
     protoAlt: "Micrograph of moss protonema filaments",
     protoCap: "Protonema · [placeholder]",
-    lead: "Laboratory head",
+    lead: "\n",
     photoSlot: "Space for photograph",
     bio: "Biography",
     lines: "Research lines",

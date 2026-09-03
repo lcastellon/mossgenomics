@@ -81,7 +81,7 @@ const labEn: LabInfo = {
   location: "Tlaxcala, Mexico",
   lead: {
     name: "Dr. Miguel Angel Villalobos López",
-    role: "Head of Laboratory 11 — Functional Plant Genomics",
+    role: "Laboratory 11 — Functional Plant Genomics",
     slug: "miguel-angel-villalobos-lopez",
     photo: null as string | null,
     bio: "[Pending] Academic profile of Dr. Miguel Angel Villalobos López to be confirmed.",
