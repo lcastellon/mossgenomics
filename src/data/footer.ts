@@ -1,6 +1,18 @@
 import { useLocalized } from "@/lib/i18n";
 
-export const footerCopy = {
+type FooterCopy = {
+  navigation: string;
+  institutional: string;
+  studyModel: string;
+  photoPlaceholder: string;
+};
+
+type FooterLink = {
+  label: string;
+  to: string;
+};
+
+export const footerCopy: { es: FooterCopy; en: FooterCopy } = {
   es: {
     navigation: "Navegación",
     institutional: "Institucional",
@@ -13,9 +25,9 @@ export const footerCopy = {
     studyModel: "Study model",
     photoPlaceholder: "Photo placeholder",
   },
-} as const;
+};
 
-export const footerLinksData = {
+export const footerLinksData: { es: FooterLink[]; en: FooterLink[] } = {
   es: [
     { label: "Investigación", to: "/research" },
     { label: "Pseudocrossidium replicatum", to: "/pseudocrossidium-replicatum" },
@@ -32,7 +44,7 @@ export const footerLinksData = {
     { label: "Students", to: "/join" },
     { label: "Contact", to: "/contact" },
   ],
-} as const;
+};
 
 export const useFooterCopy = () => useLocalized(footerCopy);
 export const useFooterLinks = () => useLocalized(footerLinksData);
