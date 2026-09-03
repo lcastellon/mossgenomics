@@ -99,7 +99,7 @@ function Hero() {
                 Conoce nuestra investigación
               </ActionLink>
               <ActionLink to="/pseudocrossidium-replicatum" tone="onDark">
-                Descubre <Sp>Pseudocrossidium replicatum</Sp>
+                <Sp>Pseudocrossidium replicatum</Sp>
               </ActionLink>
             </div>
           </div>
