@@ -15,21 +15,35 @@ import { LanguageProvider, useLanguage } from "../lib/language-context";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 
+const notFoundCopy = {
+  es: {
+    eyebrow: "Error 404",
+    title: "Página no encontrada",
+    body: "La página que buscas no existe o fue movida.",
+    cta: "Volver al inicio",
+  },
+  en: {
+    eyebrow: "Error 404",
+    title: "Page not found",
+    body: "The page you are looking for does not exist or has been moved.",
+    cta: "Back to home",
+  },
+};
+
 function NotFoundComponent() {
+  const copy = useLocalized(notFoundCopy);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <p className="eyebrow">Error 404</p>
-        <h1 className="mt-4 text-4xl text-foreground">Página no encontrada</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          La página que buscas no existe o fue movida.
-        </p>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h1 className="mt-4 text-4xl text-foreground">{copy.title}</h1>
+        <p className="mt-3 text-sm text-muted-foreground">{copy.body}</p>
         <div className="mt-8">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90"
           >
-            Volver al inicio
+            {copy.cta}
           </Link>
         </div>
       </div>
