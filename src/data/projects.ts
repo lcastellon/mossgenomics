@@ -1,3 +1,5 @@
+import { useLocalized } from "@/lib/i18n";
+
 export type Project = {
   slug: string;
   title: string;
@@ -15,7 +17,12 @@ export type Project = {
   placeholder: boolean;
 };
 
+export type ProjectEn = Omit<Project, "status"> & {
+  status: "Ongoing" | "In preparation" | "Completed";
+};
+
 const P = "[Pendiente] Información por confirmar con el laboratorio.";
+const P_EN = "[Pending] Information to be confirmed with the laboratory.";
 
 export const projects: Project[] = [
   {
@@ -67,3 +74,57 @@ export const projects: Project[] = [
     placeholder: true,
   },
 ];
+
+export const projectsEn: ProjectEn[] = [
+  {
+    slug: "proyecto-demostracion-1",
+    title: "[Demonstration project 1]",
+    question: "[Pending] Research question to be defined.",
+    description: P_EN,
+    organism: "Pseudocrossidium replicatum",
+    genes: P_EN,
+    methodology: [P_EN],
+    researchers: ["Dr. Miguel Angel Villalobos López"],
+    students: [P_EN],
+    funding: P_EN,
+    period: P_EN,
+    publications: [],
+    status: "Ongoing",
+    placeholder: true,
+  },
+  {
+    slug: "proyecto-demostracion-2",
+    title: "[Demonstration project 2]",
+    question: "[Pending] Research question to be defined.",
+    description: P_EN,
+    organism: "Pseudocrossidium replicatum",
+    genes: P_EN,
+    methodology: [P_EN],
+    researchers: ["Dr. Miguel Angel Villalobos López"],
+    students: [P_EN],
+    funding: P_EN,
+    period: P_EN,
+    publications: [],
+    status: "In preparation",
+    placeholder: true,
+  },
+  {
+    slug: "proyecto-demostracion-3",
+    title: "[Demonstration project 3]",
+    question: "[Pending] Research question to be defined.",
+    description: P_EN,
+    organism: P_EN,
+    genes: P_EN,
+    methodology: [P_EN],
+    researchers: ["Dr. Miguel Angel Villalobos López"],
+    students: [P_EN],
+    funding: P_EN,
+    period: P_EN,
+    publications: [],
+    status: "In preparation",
+    placeholder: true,
+  },
+];
+
+export const projectsData = { es: projects, en: projectsEn } as const;
+export const useProjects = () => useLocalized(projectsData);

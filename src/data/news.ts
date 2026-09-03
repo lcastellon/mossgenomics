@@ -1,3 +1,5 @@
+import { useLocalized } from "@/lib/i18n";
+
 export type NewsItem = {
   slug: string;
   date: string;
@@ -16,8 +18,23 @@ export type NewsItem = {
   placeholder: boolean;
 };
 
+export type NewsItemEn = Omit<NewsItem, "category"> & {
+  category:
+    | "Publication"
+    | "Conference"
+    | "Thesis defense"
+    | "Award"
+    | "Students"
+    | "Project"
+    | "Research stay"
+    | "Collaboration";
+};
+
 const P =
   "[Pendiente] Nota de demostración. Sustituir por información real del laboratorio antes de publicar el sitio.";
+
+const P_EN =
+  "[Pending] Demonstration note. Replace with real laboratory information before publishing the site.";
 
 export const news: NewsItem[] = [
   {
@@ -57,3 +74,45 @@ export const news: NewsItem[] = [
     placeholder: true,
   },
 ];
+
+export const newsEn: NewsItemEn[] = [
+  {
+    slug: "nota-demostracion-publicacion",
+    date: "[Date]",
+    category: "Publication",
+    title: "[Demonstration note — new publication]",
+    excerpt: P_EN,
+    body: P_EN,
+    placeholder: true,
+  },
+  {
+    slug: "nota-demostracion-congreso",
+    date: "[Date]",
+    category: "Conference",
+    title: "[Demonstration note — conference participation]",
+    excerpt: P_EN,
+    body: P_EN,
+    placeholder: true,
+  },
+  {
+    slug: "nota-demostracion-tesis",
+    date: "[Date]",
+    category: "Thesis defense",
+    title: "[Demonstration note — thesis defense]",
+    excerpt: P_EN,
+    body: P_EN,
+    placeholder: true,
+  },
+  {
+    slug: "nota-demostracion-proyecto",
+    date: "[Date]",
+    category: "Project",
+    title: "[Demonstration note — new project]",
+    excerpt: P_EN,
+    body: P_EN,
+    placeholder: true,
+  },
+];
+
+export const newsData = { es: news, en: newsEn } as const;
+export const useNews = () => useLocalized(newsData);
