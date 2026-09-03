@@ -101,6 +101,7 @@ export function SiteHeader() {
             <span className={cn("block h-px w-4 bg-current transition", open && "-translate-y-[3px] -rotate-45")} />
           </span>
         </button>
+        </div>
       </div>
 
       {open ? (
