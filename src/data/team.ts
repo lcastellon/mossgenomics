@@ -44,7 +44,7 @@ export const teamCategoriesEn = [
   "Alumni",
 ] as const;
 
-export const teamCategoriesData = { es: teamCategories, en: teamCategoriesEn } as const;
+export const teamCategoriesData: { es: readonly string[]; en: readonly string[] } = { es: teamCategories, en: teamCategoriesEn };
 export const useTeamCategories = () => useLocalized(teamCategoriesData);
 
 export type TeamCategory = (typeof teamCategories)[number];
@@ -145,5 +145,5 @@ export const teamEn: MemberEn[] = [
   placeholderMemberEn("perfil-tecnico-1", "[Technical staff]", "Technicians", false),
 ];
 
-export const teamData = { es: team, en: teamEn } as const;
+export const teamData: { es: (Omit<Member, "category"> & { category: string })[]; en: (Omit<Member, "category"> & { category: string })[] } = { es: team, en: teamEn };
 export const useTeam = () => useLocalized(teamData);

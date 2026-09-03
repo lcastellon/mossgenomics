@@ -114,5 +114,5 @@ export const newsEn: NewsItemEn[] = [
   },
 ];
 
-export const newsData = { es: news, en: newsEn } as const;
+export const newsData: { es: (Omit<NewsItem, "category"> & { category: string })[]; en: (Omit<NewsItem, "category"> & { category: string })[] } = { es: news, en: newsEn };
 export const useNews = () => useLocalized(newsData);

@@ -126,5 +126,5 @@ export const projectsEn: ProjectEn[] = [
   },
 ];
 
-export const projectsData = { es: projects, en: projectsEn } as const;
+export const projectsData: { es: (Omit<Project, "status"> & { status: string })[]; en: (Omit<Project, "status"> & { status: string })[] } = { es: projects, en: projectsEn };
 export const useProjects = () => useLocalized(projectsData);

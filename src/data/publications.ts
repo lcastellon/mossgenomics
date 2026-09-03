@@ -18,7 +18,7 @@ export const publicationFiltersEn = [
   "Molecular biology",
 ] as const;
 
-export const publicationFiltersData = { es: publicationFilters, en: publicationFiltersEn } as const;
+export const publicationFiltersData: { es: readonly string[]; en: readonly string[] } = { es: publicationFilters, en: publicationFiltersEn };
 export const usePublicationFilters = () => useLocalized(publicationFiltersData);
 
 export type PublicationFilter = (typeof publicationFilters)[number];
@@ -141,7 +141,7 @@ export const publicationsEn: PublicationEn[] = [
   },
 ];
 
-export const publicationsData = { es: publications, en: publicationsEn } as const;
+export const publicationsData: { es: (Omit<Publication, "tags"> & { tags: string[] })[]; en: (Omit<Publication, "tags"> & { tags: string[] })[] } = { es: publications, en: publicationsEn };
 export const usePublications = () => useLocalized(publicationsData);
 
 /**

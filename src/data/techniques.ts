@@ -25,7 +25,7 @@ export const techniqueGroupsEn = [
   "Analysis and imaging",
 ] as const;
 
-export const techniqueGroupsData = { es: techniqueGroups, en: techniqueGroupsEn } as const;
+export const techniqueGroupsData: { es: readonly string[]; en: readonly string[] } = { es: techniqueGroups, en: techniqueGroupsEn };
 export const useTechniqueGroups = () => useLocalized(techniqueGroupsData);
 
 export const techniques: Technique[] = [

@@ -80,7 +80,7 @@ const labEn = {
   ],
 } as const;
 
-export const labData = { es: lab, en: labEn } as const;
+export const labData: { es: typeof lab; en: typeof lab } = { es: lab, en: labEn };
 export const useLab = () => useLocalized(labData);
 
 export const nav = [
@@ -109,7 +109,7 @@ const navEn = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
-export const navData = { es: nav, en: navEn } as const;
+export const navData: { es: readonly { label: string; to: string }[]; en: readonly { label: string; to: string }[] } = { es: nav, en: navEn };
 export const useNav = () => useLocalized(navData);
 
 export const PLACEHOLDER =

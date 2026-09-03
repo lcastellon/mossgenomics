@@ -1,6 +1,6 @@
-import { useLanguage } from "./language-context";
+import { useLanguage, type Language } from "./language-context";
 
-export function useLocalized<T>(data: { es: T; en: T }): T {
+export function useLocalized<ES, EN>(data: { es: ES; en: EN }): ES | EN {
   const { language } = useLanguage();
-  return data[language];
+  return data[language as Language] as ES | EN;
 }
