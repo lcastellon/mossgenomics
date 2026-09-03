@@ -4,7 +4,8 @@ import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, PageHero, PendingBadge, Section } from "@/components/ui/primitives";
 import { submitContact } from "@/lib/contact.functions";
-import { lab } from "@/data/lab";
+import { useLab } from "@/data/lab";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -28,15 +29,82 @@ export const Route = createFileRoute("/contact")({
   }),
 });
 
-const reasons = [
-  "Quiero realizar tesis",
-  "Servicio social",
-  "Maestría",
-  "Doctorado",
-  "Estancia",
-  "Colaboración científica",
-  "Otro",
-];
+const copy = {
+  es: {
+    reasons: [
+      "Quiero realizar tesis",
+      "Servicio social",
+      "Maestría",
+      "Doctorado",
+      "Estancia",
+      "Colaboración científica",
+      "Otro",
+    ],
+    eyebrow: "Contacto",
+    title: "Conecta con nosotros",
+    labData: "Datos del laboratorio",
+    head: "Responsable",
+    affiliation: "Adscripción",
+    address: "Dirección",
+    email: "Correo institucional",
+    phone: "Teléfono",
+    mapTitle: "Ubicación del CIBA-IPN en Tlaxcala",
+    form: "Formulario",
+    name: "Nombre",
+    namePh: "Tu nombre",
+    institution: "Institución",
+    institutionPh: "Tu institución",
+    mail: "Correo",
+    mailPh: "correo@ejemplo.mx",
+    reason: "Motivo del contacto",
+    select: "Selecciona una opción",
+    message: "Mensaje",
+    messagePh: "Cuéntanos brevemente tu interés",
+    sending: "Enviando...",
+    send: "Enviar mensaje",
+    success: "Gracias por escribir. Tu mensaje ha sido guardado y lo revisaremos pronto.",
+    note: "Tu mensaje se guarda de forma segura en nuestro sistema.",
+    genericError: "No se pudo enviar el mensaje.",
+    unexpected: "Ocurrió un error inesperado. Intenta de nuevo más tarde.",
+  },
+  en: {
+    reasons: [
+      "I want to do a thesis",
+      "Social service",
+      "Master's",
+      "Doctorate",
+      "Research stay",
+      "Scientific collaboration",
+      "Other",
+    ],
+    eyebrow: "Contact",
+    title: "Get in touch",
+    labData: "Laboratory details",
+    head: "Head",
+    affiliation: "Affiliation",
+    address: "Address",
+    email: "Institutional email",
+    phone: "Phone",
+    mapTitle: "Location of CIBA-IPN in Tlaxcala",
+    form: "Form",
+    name: "Name",
+    namePh: "Your name",
+    institution: "Institution",
+    institutionPh: "Your institution",
+    mail: "Email",
+    mailPh: "email@example.com",
+    reason: "Reason for contact",
+    select: "Select an option",
+    message: "Message",
+    messagePh: "Tell us briefly about your interest",
+    sending: "Sending...",
+    send: "Send message",
+    success: "Thank you for writing. Your message has been saved and we will review it soon.",
+    note: "Your message is stored securely in our system.",
+    genericError: "The message could not be sent.",
+    unexpected: "An unexpected error occurred. Please try again later.",
+  },
+};
 
 const fieldClass =
   "mt-2 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-verdant";
@@ -44,6 +112,8 @@ const fieldClass =
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
 function ContactPage() {
+  const t = useLocalized(copy);
+  const lab = useLab();
   const submit = useServerFn(submitContact);
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -72,33 +142,33 @@ function ContactPage() {
         form.reset();
       } else {
         setStatus("error");
-        setErrorMessage(result.error || "No se pudo enviar el mensaje.");
+        setErrorMessage(result.error || t.genericError);
       }
     } catch (err) {
       setStatus("error");
-      setErrorMessage("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
+      setErrorMessage(t.unexpected);
     }
   };
 
   return (
     <>
       <PageHero
-        eyebrow="Contacto"
-        title="Conecta con nosotros"
+        eyebrow={t.eyebrow}
+        title={t.title}
         lede={`${lab.number} — ${lab.name}`}
       />
 
       <Section>
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
-            <Eyebrow>Datos del laboratorio</Eyebrow>
+            <Eyebrow>{t.labData}</Eyebrow>
             <dl className="mt-6 space-y-6 text-sm">
               <div>
-                <dt className="eyebrow">Responsable</dt>
+                <dt className="eyebrow">{t.head}</dt>
                 <dd className="mt-1.5 font-display text-lg">{lab.lead.name}</dd>
               </div>
               <div>
-                <dt className="eyebrow">Adscripción</dt>
+                <dt className="eyebrow">{t.affiliation}</dt>
                 <dd className="mt-1.5 leading-relaxed text-foreground/80">
                   {lab.center}
                   <br />
@@ -108,19 +178,19 @@ function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Dirección</dt>
+                <dt className="eyebrow">{t.address}</dt>
                 <dd className="mt-1.5 flex flex-wrap items-center gap-3 text-foreground/70">
                   {lab.contact.address} <PendingBadge />
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Correo institucional</dt>
+                <dt className="eyebrow">{t.email}</dt>
                 <dd className="mt-1.5 flex flex-wrap items-center gap-3 text-foreground/70">
                   {lab.contact.email} <PendingBadge />
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Teléfono</dt>
+                <dt className="eyebrow">{t.phone}</dt>
                 <dd className="mt-1.5 flex flex-wrap items-center gap-3 text-foreground/70">
                   {lab.contact.phone} <PendingBadge />
                 </dd>
@@ -129,7 +199,7 @@ function ContactPage() {
 
             <div className="mt-10 overflow-hidden rounded-sm border border-border">
               <iframe
-                title="Ubicación del CIBA-IPN en Tlaxcala"
+                title={t.mapTitle}
                 src={`https://www.google.com/maps?q=${encodeURIComponent(lab.contact.mapQuery)}&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -139,35 +209,35 @@ function ContactPage() {
           </Reveal>
 
           <Reveal delay={120}>
-            <Eyebrow>Formulario</Eyebrow>
+            <Eyebrow>{t.form}</Eyebrow>
             <form onSubmit={onSubmit} className="mt-6 space-y-5">
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block text-sm">
-                  <span className="eyebrow">Nombre</span>
-                  <input required name="nombre" className={fieldClass} placeholder="Tu nombre" />
+                  <span className="eyebrow">{t.name}</span>
+                  <input required name="nombre" className={fieldClass} placeholder={t.namePh} />
                 </label>
                 <label className="block text-sm">
-                  <span className="eyebrow">Institución</span>
-                  <input name="institucion" className={fieldClass} placeholder="Tu institución" />
+                  <span className="eyebrow">{t.institution}</span>
+                  <input name="institucion" className={fieldClass} placeholder={t.institutionPh} />
                 </label>
               </div>
               <label className="block text-sm">
-                <span className="eyebrow">Correo</span>
+                <span className="eyebrow">{t.mail}</span>
                 <input
                   required
                   type="email"
                   name="correo"
                   className={fieldClass}
-                  placeholder="correo@ejemplo.mx"
+                  placeholder={t.mailPh}
                 />
               </label>
               <label className="block text-sm">
-                <span className="eyebrow">Motivo del contacto</span>
+                <span className="eyebrow">{t.reason}</span>
                 <select required name="motivo" defaultValue="" className={fieldClass}>
                   <option value="" disabled>
-                    Selecciona una opción
+                    {t.select}
                   </option>
-                  {reasons.map((r) => (
+                  {t.reasons.map((r) => (
                     <option key={r} value={r}>
                       {r}
                     </option>
@@ -175,13 +245,13 @@ function ContactPage() {
                 </select>
               </label>
               <label className="block text-sm">
-                <span className="eyebrow">Mensaje</span>
+                <span className="eyebrow">{t.message}</span>
                 <textarea
                   required
                   name="mensaje"
                   rows={6}
                   className={fieldClass}
-                  placeholder="Cuéntanos brevemente tu interés"
+                  placeholder={t.messagePh}
                 />
               </label>
 
@@ -190,12 +260,12 @@ function ContactPage() {
                 disabled={status === "submitting"}
                 className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {status === "submitting" ? "Enviando..." : "Enviar mensaje"}
+                {status === "submitting" ? t.sending : t.send}
               </button>
 
               {status === "success" && (
                 <p className="text-sm text-verdant">
-                  Gracias por escribir. Tu mensaje ha sido guardado y lo revisaremos pronto.
+                  {t.success}
                 </p>
               )}
               {status === "error" && (
@@ -203,7 +273,7 @@ function ContactPage() {
               )}
               {status === "idle" && (
                 <p className="text-xs text-muted-foreground">
-                  Tu mensaje se guarda de forma segura en nuestro sistema.
+                  {t.note}
                 </p>
               )}
             </form>
