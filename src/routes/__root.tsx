@@ -148,13 +148,25 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <RootInner />
+      </QueryClientProvider>
+    </LanguageProvider>
+  );
+}
+
+function RootInner() {
+  const { language } = useLanguage();
+
+  return (
+    <>
       <SiteHeader />
-      <main className="min-h-screen">
+      <main className="min-h-screen" lang={language}>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>
       <SiteFooter />
-    </QueryClientProvider>
+    </>
   );
 }
