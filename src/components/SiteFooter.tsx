@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLab } from "@/data/lab";
 import { useFooterCopy, useFooterLinks } from "@/data/footer";
+import { italicizeSpecies } from "@/lib/italicize-species";
 
 export function SiteFooter() {
   const lab = useLab();
@@ -31,7 +32,7 @@ export function SiteFooter() {
                   to={l.to}
                   className="text-sm text-primary-foreground/80 transition-colors hover:text-primary-foreground"
                 >
-                  {l.label}
+                  {italicizeSpecies(l.label)}
                 </Link>
               </li>
             ))}

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/primitives";
 import { useSpecies, useSpeciesSections } from "@/data/pseudocrossidium";
 import { useLocalized } from "@/lib/i18n";
+import { italicizeSpecies } from "@/lib/italicize-species";
 
 const copy = {
   es: {
@@ -122,11 +123,11 @@ function SpeciesPage() {
         <div className="grid gap-12 md:grid-cols-2">
           <Reveal>
             <h2 className="text-2xl">{t.whatIsIt}</h2>
-            <p className="mt-4 leading-relaxed text-foreground/80">{species.whatIsIt}</p>
+            <p className="mt-4 leading-relaxed text-foreground/80">{italicizeSpecies(species.whatIsIt)}</p>
           </Reveal>
           <Reveal delay={100}>
             <h2 className="text-2xl">{t.whyMoss}</h2>
-            <p className="mt-4 leading-relaxed text-foreground/80">{species.whyMoss}</p>
+            <p className="mt-4 leading-relaxed text-foreground/80">{italicizeSpecies(species.whyMoss)}</p>
           </Reveal>
         </div>
         <Reveal className="mt-14 rule-top pt-10">

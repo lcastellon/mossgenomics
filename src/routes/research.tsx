@@ -11,6 +11,7 @@ import {
 import { useLab } from "@/data/lab";
 import { useGeneToPhenotype, useResearchAreas } from "@/data/researchAreas";
 import { useLocalized } from "@/lib/i18n";
+import { italicizeSpecies } from "@/lib/italicize-species";
 
 export const Route = createFileRoute("/research")({
   component: ResearchPage,
@@ -93,7 +94,7 @@ function ResearchPage() {
                 <div>
                   <h2 className="text-2xl md:text-3xl">{area.title}</h2>
                   <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
-                    {area.summary}
+                    {italicizeSpecies(area.summary)}
                   </p>
                 </div>
                 <ul className="space-y-1.5 md:text-right">
