@@ -52,9 +52,25 @@ function NotFoundComponent() {
   );
 }
 
+const errorCopy = {
+  es: {
+    title: "Esta página no se pudo cargar",
+    body: "Ocurrió un problema. Puedes intentar de nuevo o volver al inicio.",
+    retry: "Intentar de nuevo",
+    home: "Inicio",
+  },
+  en: {
+    title: "This page could not load",
+    body: "Something went wrong. You can try again or go back to the home page.",
+    retry: "Try again",
+    home: "Home",
+  },
+};
+
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const copy = useLocalized(errorCopy);
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
@@ -62,10 +78,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-2xl text-foreground">Esta página no se pudo cargar</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Ocurrió un problema. Puedes intentar de nuevo o volver al inicio.
-        </p>
+        <h1 className="text-2xl text-foreground">{copy.title}</h1>
+        <p className="mt-3 text-sm text-muted-foreground">{copy.body}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
@@ -74,13 +88,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
-            Intentar de nuevo
+            {copy.retry}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground"
           >
-            Inicio
+            {copy.home}
           </a>
         </div>
       </div>
