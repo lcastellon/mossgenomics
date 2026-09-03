@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { PageHero, PendingBadge, Section } from "@/components/ui/primitives";
-import { techniqueGroups, techniques } from "@/data/techniques";
+import { useTechniqueGroups, useTechniques } from "@/data/techniques";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/technologies")({
   component: TechnologiesPage,
@@ -25,16 +26,35 @@ export const Route = createFileRoute("/technologies")({
   }),
 });
 
+const copy = {
+  es: {
+    eyebrow: "Tecnologías y metodologías",
+    title: "Cómo estudiamos la función de los genes",
+    lede: "Listado editable de aproximaciones experimentales. Las capacidades se marcarán como confirmadas una vez validadas por el laboratorio.",
+    badge: "Disponibilidad por confirmar",
+    confirmed: "Confirmada",
+    pending: "Por confirmar",
+  },
+  en: {
+    eyebrow: "Technologies and methods",
+    title: "How we study gene function",
+    lede: "Editable list of experimental approaches. Capabilities will be marked as confirmed once validated by the laboratory.",
+    badge: "Availability to be confirmed",
+    confirmed: "Confirmed",
+    pending: "To be confirmed",
+  },
+};
+
 function TechnologiesPage() {
+  const t = useLocalized(copy);
+  const techniqueGroups = useTechniqueGroups();
+  const techniques = useTechniques();
+
   return (
     <>
-      <PageHero
-        eyebrow="Tecnologías y metodologías"
-        title="Cómo estudiamos la función de los genes"
-        lede="Listado editable de aproximaciones experimentales. Las capacidades se marcarán como confirmadas una vez validadas por el laboratorio."
-      >
+      <PageHero eyebrow={t.eyebrow} title={t.title} lede={t.lede}>
         <div className="mt-8">
-          <PendingBadge label="Disponibilidad por confirmar" />
+          <PendingBadge label={t.badge} />
         </div>
       </PageHero>
 
@@ -45,14 +65,14 @@ function TechnologiesPage() {
               <h2 className="font-display text-xl">{group}</h2>
               <ul className="grid gap-px bg-border sm:grid-cols-2 xl:grid-cols-3">
                 {techniques
-                  .filter((t) => t.group === group)
-                  .map((t) => (
-                    <li key={t.id} className="bg-background p-5">
+                  .filter((tech) => tech.group === group)
+                  .map((tech) => (
+                    <li key={tech.id} className="bg-background p-5">
                       <div className="flex items-start justify-between gap-3">
-                        <p className="text-sm font-medium">{t.name}</p>
+                        <p className="text-sm font-medium">{tech.name}</p>
                         <span
                           className={
-                            t.confirmed
+                            tech.confirmed
                               ? "mt-1 size-1.5 shrink-0 rounded-full bg-verdant"
                               : "mt-1 size-1.5 shrink-0 rounded-full bg-border"
                           }
@@ -60,10 +80,10 @@ function TechnologiesPage() {
                         />
                       </div>
                       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                        {t.note}
+                        {tech.note}
                       </p>
                       <p className="mt-3 font-mono text-[10px] tracking-[0.12em] text-muted-foreground uppercase">
-                        {t.confirmed ? "Confirmada" : "Por confirmar"}
+                        {tech.confirmed ? t.confirmed : t.pending}
                       </p>
                     </li>
                   ))}
