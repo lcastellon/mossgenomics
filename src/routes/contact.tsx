@@ -187,20 +187,23 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                disabled={status === "submitting"}
+                className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Enviar mensaje
+                {status === "submitting" ? "Enviando..." : "Enviar mensaje"}
               </button>
 
-              {sent ? (
+              {status === "success" && (
                 <p className="text-sm text-verdant">
-                  Gracias por escribir. El envío de correos aún no está conectado: se habilitará
-                  junto con el correo institucional del laboratorio.
+                  Gracias por escribir. Tu mensaje ha sido guardado y lo revisaremos pronto.
                 </p>
-              ) : (
+              )}
+              {status === "error" && (
+                <p className="text-sm text-destructive">{errorMessage}</p>
+              )}
+              {status === "idle" && (
                 <p className="text-xs text-muted-foreground">
-                  El formulario todavía no envía correos. Se conectará cuando se confirme el
-                  correo institucional del laboratorio.
+                  Tu mensaje se guarda de forma segura en nuestro sistema.
                 </p>
               )}
             </form>
