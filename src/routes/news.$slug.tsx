@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowLink, PageHero, PendingBadge, Section } from "@/components/ui/primitives";
-import { news } from "@/data/news";
+import { news, useNews } from "@/data/news";
+import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/news/$slug")({
   loader: ({ params }) => {
@@ -34,26 +35,45 @@ export const Route = createFileRoute("/news/$slug")({
   notFoundComponent: NewsNotFound,
 });
 
+const copy = {
+  es: {
+    notFound: "Nota no encontrada",
+    all: "Ver todas las noticias",
+    badge: "Nota de demostración",
+    back: "Volver a noticias",
+  },
+  en: {
+    notFound: "Note not found",
+    all: "See all news",
+    badge: "Demonstration entry",
+    back: "Back to news",
+  },
+};
+
 function NewsNotFound() {
+  const t = useLocalized(copy);
   return (
     <Section>
-      <h1 className="text-3xl">Nota no encontrada</h1>
+      <h1 className="text-3xl">{t.notFound}</h1>
       <div className="mt-6">
-        <ArrowLink to="/news">Ver todas las noticias</ArrowLink>
+        <ArrowLink to="/news">{t.all}</ArrowLink>
       </div>
     </Section>
   );
 }
 
 function NewsDetail() {
-  const { item } = Route.useLoaderData();
+  const { item: fallback } = Route.useLoaderData();
+  const t = useLocalized(copy);
+  const localizedNews = useNews();
+  const item = localizedNews.find((n) => n.slug === fallback.slug) ?? fallback;
 
   return (
     <>
       <PageHero eyebrow={`${item.category} · ${item.date}`} title={item.title}>
         {item.placeholder ? (
           <div className="mt-8">
-            <PendingBadge label="Nota de demostración" />
+            <PendingBadge label={t.badge} />
           </div>
         ) : null}
       </PageHero>
@@ -62,7 +82,7 @@ function NewsDetail() {
           {item.body}
         </article>
         <div className="mt-12">
-          <ArrowLink to="/news">Volver a noticias</ArrowLink>
+          <ArrowLink to="/news">{t.back}</ArrowLink>
         </div>
       </Section>
     </>
