@@ -62,7 +62,7 @@ export function SiteFooter() {
           © {new Date().getFullYear()} {lab.number} · {lab.name}
         </p>
         <p className="font-mono tracking-[0.18em] uppercase">
-          Modelo de estudio · <span className="species tracking-normal normal-case">Pseudocrossidium replicatum</span>
+          {copy.studyModel} · <span className="species tracking-normal normal-case">Pseudocrossidium replicatum</span>
         </p>
       </div>
     </footer>
