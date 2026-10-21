@@ -5,6 +5,7 @@ import { useProjects } from "@/data/projects";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/projects/")({
+  staticData: { sitemap: true },
   component: ProjectsPage,
   head: () => ({
     meta: [

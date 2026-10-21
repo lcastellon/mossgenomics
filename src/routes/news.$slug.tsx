@@ -4,6 +4,7 @@ import { news, useNews } from "@/data/news";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/news/$slug")({
+  staticData: { sitemap: false },
   loader: ({ params }) => {
     const item = news.find((n) => n.slug === params.slug);
     if (!item) throw notFound();

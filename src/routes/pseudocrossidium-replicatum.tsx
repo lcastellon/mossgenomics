@@ -65,6 +65,7 @@ const copy = {
 };
 
 export const Route = createFileRoute("/pseudocrossidium-replicatum")({
+  staticData: { sitemap: true },
   component: SpeciesPage,
   head: () => ({
     meta: [

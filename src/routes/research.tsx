@@ -14,6 +14,7 @@ import { useLocalized } from "@/lib/i18n";
 import { italicizeSpecies } from "@/lib/italicize-species";
 
 export const Route = createFileRoute("/research")({
+  staticData: { sitemap: true },
   component: ResearchPage,
   head: () => ({
     meta: [

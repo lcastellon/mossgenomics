@@ -10,6 +10,7 @@ import { projects, useProjects } from "@/data/projects";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/projects/$slug")({
+  staticData: { sitemap: false },
   loader: ({ params }) => {
     const project = projects.find((p) => p.slug === params.slug);
     if (!project) throw notFound();

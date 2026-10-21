@@ -8,6 +8,7 @@ import { useLab } from "@/data/lab";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/contact")({
+  staticData: { sitemap: true },
   component: ContactPage,
   head: () => ({
     meta: [
