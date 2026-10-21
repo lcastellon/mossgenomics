@@ -15,6 +15,7 @@ import { Route as JoinRouteImport } from './routes/join'
 import { Route as PseudocrossidiumReplicatumRouteImport } from './routes/pseudocrossidium-replicatum'
 import { Route as PublicationsRouteImport } from './routes/publications'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TechnologiesRouteImport } from './routes/technologies'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
@@ -52,6 +53,11 @@ const PublicationsRoute = PublicationsRouteImport.update({
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TechnologiesRoute = TechnologiesRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
   '/publications': typeof PublicationsRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technologies': typeof TechnologiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
   '/publications': typeof PublicationsRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technologies': typeof TechnologiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/pseudocrossidium-replicatum': typeof PseudocrossidiumReplicatumRoute
   '/publications': typeof PublicationsRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technologies': typeof TechnologiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/pseudocrossidium-replicatum'
     | '/publications'
     | '/research'
+    | '/sitemap.xml'
     | '/technologies'
     | '/news/$slug'
     | '/projects/$slug'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/pseudocrossidium-replicatum'
     | '/publications'
     | '/research'
+    | '/sitemap.xml'
     | '/technologies'
     | '/news/$slug'
     | '/projects/$slug'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/pseudocrossidium-replicatum'
     | '/publications'
     | '/research'
+    | '/sitemap.xml'
     | '/technologies'
     | '/news/$slug'
     | '/projects/$slug'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   PseudocrossidiumReplicatumRoute: typeof PseudocrossidiumReplicatumRoute
   PublicationsRoute: typeof PublicationsRoute
   ResearchRoute: typeof ResearchRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TechnologiesRoute: typeof TechnologiesRoute
   NewsSlugRoute: typeof NewsSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/technologies': {
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   PseudocrossidiumReplicatumRoute: PseudocrossidiumReplicatumRoute,
   PublicationsRoute: PublicationsRoute,
   ResearchRoute: ResearchRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TechnologiesRoute: TechnologiesRoute,
   NewsSlugRoute: NewsSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
