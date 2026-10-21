@@ -11,6 +11,7 @@ import { team, useTeam } from "@/data/team";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/team/$slug")({
+  staticData: { sitemap: false },
   loader: ({ params }) => {
     const member = team.find((m) => m.slug === params.slug);
     if (!member) throw notFound();

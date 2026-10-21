@@ -5,6 +5,7 @@ import { useLab } from "@/data/lab";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/join")({
+  staticData: { sitemap: true },
   component: JoinPage,
   head: () => ({
     meta: [

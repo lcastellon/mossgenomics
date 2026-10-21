@@ -13,6 +13,7 @@ import { useTeam, useTeamCategories } from "@/data/team";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/team/")({
+  staticData: { sitemap: true },
   component: TeamPage,
   head: () => ({
     meta: [

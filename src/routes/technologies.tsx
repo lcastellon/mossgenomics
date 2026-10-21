@@ -5,6 +5,7 @@ import { useTechniqueGroups, useTechniques } from "@/data/techniques";
 import { useLocalized } from "@/lib/i18n";
 
 export const Route = createFileRoute("/technologies")({
+  staticData: { sitemap: true },
   component: TechnologiesPage,
   head: () => ({
     meta: [

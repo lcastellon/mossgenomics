@@ -7,6 +7,7 @@ import { useLocalized } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/publications")({
+  staticData: { sitemap: true },
   component: PublicationsPage,
   head: () => ({
     meta: [
